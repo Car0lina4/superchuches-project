@@ -1,0 +1,595 @@
+import React, { useMemo, useRef, useState } from "react";
+import { motion } from "framer-motion";
+
+const images = {
+  hero1: "/images/hero-cover-1.jpg",
+  hero2: "/images/hero-cover-2.jpg",
+  francisCompo: "/images/hero-cover-2.png",
+  comparison: "/images/comparison.png",
+  characterSheet: "/images/character-sheet.jpg",
+  gigaBaby: "/images/giga-baby.png",
+  micro: "/images/micro.png",
+  moustache: "/images/moustache.png",
+  chachiyeti: "/images/chachiyeti.png",
+  daniel: "/images/daniel.png",
+  francis: "/images/francis.png",
+  concept: "/images/scene-concept.jpg",
+  sketch1: "/images/sketch-1.png",
+  sketch2: "/images/sketch-2.png",
+  sketch3: "/images/sketch-3.png",
+  sketch4: "/images/sketch-4.png",
+  sketch5: "/images/sketch-5.png",
+};
+
+const copy = {
+  es: {
+    nav: ["Proyecto", "Serie", "Peli", "Galería", "Contacto"],
+
+    heroEyebrow: "Presentación visual · IP de animación",
+    heroTitle: "Superchuches",
+    heroSubtitle:
+      "Una IP de animación infantil con un universo visual único, diseñada para crecer desde serie short-form hasta largometraje.",
+    heroSupporting:
+      "La serie es el punto de entrada: permite construir audiencia, validar el tono y desarrollar el universo. La película amplía el mundo y multiplica el valor de la marca.",
+
+    ctaPrimary: "Ver serie",
+    ctaSecondary: "Ver universo",
+
+    floatingTagA: "Basado en novelas",
+    floatingTagB: "Bilingüe ES/EN",
+
+    metrics: [
+      { value: "30", label: "episodios planteados" },
+      { value: "1–2 min", label: "duración por episodio" },
+      { value: "4–7", label: "target principal" },
+      { value: "YouTube", label: "ventana inicial" },
+    ],
+
+    sectionKickers: {
+      project: "Proyecto",
+      universe: "Universo",
+      gallery: "Galería",
+      highlights: "Claves",
+      contact: "Contacto",
+    },
+
+    projectTitle: "Una IP con una estrategia clara de crecimiento",
+    projectText:
+      "Superchuches combina un universo sólido, personajes reconocibles y una dirección visual con fuerte identidad.",
+    projectText2:
+      "La estrategia es construir marca a través de una serie short-form, validar el tono y la conexión con la audiencia, y escalar después hacia un largometraje ambientado en el mismo mundo.",
+
+    seriesKicker: "Proyecto principal",
+    seriesTitle: "Serie animada infantil para YouTube",
+    seriesLead:
+      "La serie es la mejor puerta de entrada: formato ágil, producción optimizada y alto potencial de memorabilidad visual.",
+    seriesLead2:
+      "Su planteamiento permite construir comunidad, testar personajes y tono, y convertir el universo en una propuesta con recorrido real desde una primera fase de desarrollo.",
+
+    seriesBullets: [
+      "30 episodios de 1 a 2 minutos con salida semanal.",
+      "Público objetivo de 4 a 7 años.",
+      "Formato diseñado para YouTube y plataformas digitales.",
+      "Audio en español e inglés.",
+      "Tono divertido, optimista, imaginativo y muy visual.",
+      "Pipeline pensado para producción eficiente y escalable.",
+    ],
+
+    filmKicker: "Expansión de IP",
+    filmTitle: "Largometraje en el mismo universo",
+    filmLead:
+      "La película amplía el universo, profundiza en lo emocional y eleva el posicionamiento de la IP manteniendo coherencia visual y narrativa.",
+
+    filmBullets: [
+      "Misma identidad visual y mismo universo narrativo.",
+      "Mayor profundidad emocional y worldbuilding.",
+      "Escala más ambiciosa en personajes y conflicto.",
+      "Refuerzo estratégico del valor de la IP.",
+    ],
+
+    universeTitle: "Un universo con recorrido",
+    universeText:
+      "Las Superchuches nacen de la imaginación y se vinculan a distintas disciplinas creativas. Un sistema de familias, colores y funciones que construye una IP reconocible, flexible y expandible.",
+    universeText2:
+      "Ese planteamiento permite desarrollar nuevas criaturas, nuevas relaciones y nuevas historias sin perder identidad, abriendo la puerta a serie, largometraje y futuras extensiones del universo.",
+
+    galleryTitle: "Universo visual",
+    galleryLabels: {
+      storyMoment: "Momento narrativo",
+      emotionalCore: "Núcleo emocional",
+      characterUniverse: "Universo de personajes",
+      visualIdentity: "Identidad visual",
+      mainCharacter: "Personaje principal",
+      supportingCharacter: "Personaje secundario",
+      development: "Desarrollo",
+    },
+
+    strengthsTitle: "Claves del proyecto",
+    strengths: [
+      {
+        title: "IP diferenciada",
+        text: "Un universo propio con reglas claras y criaturas muy reconocibles.",
+      },
+      {
+        title: "Modelo escalable",
+        text: "La serie permite empezar de forma realista y crecer con recorrido.",
+      },
+      {
+        title: "Impacto visual",
+        text: "Diseño de personajes y dirección de arte con alto potencial de marca.",
+      },
+      {
+        title: "Vocación internacional",
+        text: "Proyecto bilingüe desde el inicio para facilitar pitch y partners.",
+      },
+    ],
+
+    contactTitle: "Contacto",
+    contactText:
+      "Para solicitar dossier, hablar del desarrollo o explorar posibles colaboraciones, puedes escribir directamente aquí:",
+    contactCta: "Escribir a Jorge Cáceres Hernández",
+  },
+  en: {
+    nav: ["Project", "Series", "Film", "Gallery", "Contact"],
+
+    heroEyebrow: "Visual presentation · animation IP",
+    heroTitle: "Superchuches",
+    heroSubtitle:
+      "A kids animation IP with a unique visual universe, designed to grow from a short-form series into a feature film.",
+    heroSupporting:
+      "The series is the entry point: it builds audience, validates tone and develops the universe. The film expands the world and increases the IP’s value.",
+
+    ctaPrimary: "View series",
+    ctaSecondary: "View universe",
+
+    floatingTagA: "Based on novels",
+    floatingTagB: "Bilingual ES/EN",
+
+    metrics: [
+      { value: "30", label: "planned episodes" },
+      { value: "1–2 min", label: "episode length" },
+      { value: "4–7", label: "core target" },
+      { value: "YouTube", label: "initial window" },
+    ],
+
+    sectionKickers: {
+      project: "Project",
+      universe: "Universe",
+      gallery: "Gallery",
+      highlights: "Highlights",
+      contact: "Contact",
+    },
+
+    projectTitle: "One IP with a clear growth strategy",
+    projectText:
+      "Superchuches combines a solid universe, recognizable characters and a strong visual identity.",
+    projectText2:
+      "The strategy is to build the brand through a short-form series, validate tone and audience connection, and then scale into a feature film set in the same world.",
+
+    seriesKicker: "Primary project",
+    seriesTitle: "Animated kids series for YouTube",
+    seriesLead:
+      "The series is the strongest entry point: agile format, efficient production and strong visual memorability.",
+    seriesLead2:
+      "Its structure makes it possible to build community, test characters and tone, and turn the universe into a property with real long-term potential from an early stage.",
+
+    seriesBullets: [
+      "30 episodes of 1 to 2 minutes released weekly.",
+      "Target audience: children aged 4 to 7.",
+      "Format designed for YouTube and digital platforms.",
+      "Spanish and English audio.",
+      "Fun, optimistic, imaginative and highly visual tone.",
+      "Production pipeline designed for efficiency and scalability.",
+    ],
+
+    filmKicker: "IP expansion",
+    filmTitle: "Feature film in the same universe",
+    filmLead:
+      "The film expands the universe, deepens the emotional layer and elevates the IP positioning while maintaining visual and narrative coherence.",
+
+    filmBullets: [
+      "Same visual identity and narrative universe.",
+      "Greater emotional depth and worldbuilding.",
+      "More ambitious scale in characters and conflict.",
+      "Stronger strategic value for the IP.",
+    ],
+
+    universeTitle: "A world with long-term potential",
+    universeText:
+      "Superchuches are born from imagination and linked to different creative disciplines. A system of families, colors and roles that creates a recognizable, flexible and expandable IP.",
+    universeText2:
+      "This approach makes it possible to introduce new creatures, new relationships and new stories without losing identity, opening the door to series, feature film and future universe expansion.",
+
+    galleryTitle: "Visual universe",
+    galleryLabels: {
+      storyMoment: "Story moment",
+      emotionalCore: "Emotional core",
+      characterUniverse: "Character universe",
+      visualIdentity: "Visual identity",
+      mainCharacter: "Main character",
+      supportingCharacter: "Supporting character",
+      development: "Development",
+    },
+
+    strengthsTitle: "Project strengths",
+    strengths: [
+      {
+        title: "Distinctive IP",
+        text: "An original universe with clear rules and highly recognizable creatures.",
+      },
+      {
+        title: "Scalable model",
+        text: "The series enables a realistic start and meaningful growth.",
+      },
+      {
+        title: "Visual impact",
+        text: "Character design and art direction with strong brand potential.",
+      },
+      {
+        title: "International outlook",
+        text: "Bilingual from the start to support pitching and partnerships.",
+      },
+    ],
+
+    contactTitle: "Contact",
+    contactText:
+      "To request the dossier, discuss development or explore collaboration opportunities, feel free to reach out:",
+    contactCta: "Email Jorge Cáceres Hernández",
+  },
+};
+
+const galleryItems = [  
+  {
+    src: "/images/gallery/hero-cover-2.png",
+    alt: "Francis y las Superchuches",
+    contain: true,
+    labelKey: "emotionalCore",
+  },
+  {
+    src: "/images/gallery/visual-identity-comparison.png",
+    alt: "Comparativa visual del proyecto",
+    contain: true,
+    labelKey: "visualIdentity",
+  },
+  {
+    src: "/images/gallery/main-character-giga.jpg",
+    alt: "Giga",
+    contain: true,
+    labelKey: "mainCharacter",
+  },
+  {
+    src: "/images/gallery/supporting-character-micro.png",
+    alt: "Micro",
+    contain: true,
+    labelKey: "supportingCharacter",
+  },
+  {
+    src: "/images/gallery/supporting-character-moustache.png",
+    alt: "Moustache",
+    contain: true,
+    labelKey: "supportingCharacter",
+  },
+  {
+    src: "/images/gallery/development-sketch.png",
+    alt: "Sketch de desarrollo",
+    contain: true,
+    labelKey: "development",
+  },
+  {
+    src: "/images/gallery/character-universe-sheet.png",
+    alt: "Carta de personajes",
+    contain: false,
+    labelKey: "characterUniverse",
+  },
+  {
+    src: "/images/gallery/scene-story-moment.png",
+    alt: "Escena narrativa del universo Superchuches",
+    contain: false,
+    labelKey: "storyMoment",
+    featured: true,
+  },
+];
+
+function ImageCard({ src, alt, className = "", contain = false, transparent = false }) {
+  return (
+    <div className={`image-card ${transparent ? "transparent-card" : ""} ${className}`}>
+      <img src={src} alt={alt} className={contain ? "contain" : ""} />
+    </div>
+  );
+}
+
+function BulletList({ items }) {
+  return (
+    <ul className="bullet-list">
+      {items.map((item) => (
+        <li key={item}>{item}</li>
+      ))}
+    </ul>
+  );
+}
+
+function GallerySlider({ items, t }) {
+  const trackRef = useRef(null);
+
+  const scrollByAmount = (dir) => {
+    if (!trackRef.current) return;
+    const amount = trackRef.current.clientWidth * 0.8;
+    trackRef.current.scrollBy({ left: dir * amount, behavior: "smooth" });
+  };
+
+  return (
+    <div className="gallery-shell">
+      <div className="gallery-controls">
+        <button className="gallery-btn" onClick={() => scrollByAmount(-1)}>
+          ←
+        </button>
+        <button className="gallery-btn" onClick={() => scrollByAmount(1)}>
+          →
+        </button>
+      </div>
+
+      <div className="gallery-track" ref={trackRef}>
+        {items.map((item, index) => (
+          <article
+            className={`gallery-slide ${item.featured ? "featured-slide" : ""}`}
+            key={`${item.src}-${index}`}
+          >
+            <div className="gallery-label">
+              {t.galleryLabels[item.labelKey]}
+            </div>
+
+            <ImageCard
+              src={item.src}
+              alt={item.alt}
+              contain={item.contain}
+              transparent={item.contain}
+              className="gallery-image"
+            />
+          </article>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+export default function App() {
+  const [lang, setLang] = useState("es");
+  const t = useMemo(() => copy[lang], [lang]);
+
+  return (
+    <div className="page-shell">
+      <div className="bg-orb orb-a" />
+      <div className="bg-orb orb-b" />
+      <div className="bg-orb orb-c" />
+
+      <header className="site-header">
+        <div className="brand">
+          <div className="brand-icon">✦</div>
+          <div>
+            <div className="brand-title">Superchuches</div>
+            <div className="brand-subtitle">Visual pitch website</div>
+          </div>
+        </div>
+
+        <nav className="nav">
+          <a href="#proyecto">{t.nav[0]}</a>
+          <a href="#serie">{t.nav[1]}</a>
+          <a href="#peli">{t.nav[2]}</a>
+          <a href="#galeria">{t.nav[3]}</a>
+          <a href="#contacto">{t.nav[4]}</a>
+        </nav>
+
+        <div className="lang-switch">
+          <button className={lang === "es" ? "active" : ""} onClick={() => setLang("es")}>
+            ES
+          </button>
+          <button className={lang === "en" ? "active" : ""} onClick={() => setLang("en")}>
+            EN
+          </button>
+        </div>
+      </header>
+
+      <main className="container">
+        <section className="hero-premium">
+          <div className="hero-top-concepts">
+            {[images.sketch2, images.sketch3, images.sketch1, images.sketch4, images.sketch5].map(
+              (src, i) => (
+                <motion.div
+                  className={`top-concept top-concept-${i + 1}`}
+                  key={src}
+                  initial={{ opacity: 0, y: 18, scale: 0.9 }}
+                  animate={{
+                    opacity: 1,
+                    y: [4, -2, 4],
+                    scale: 1,
+                  }}
+                  transition={{
+                    opacity: { duration: 0.6, delay: 0.1 * i },
+                    scale: { duration: 0.6, delay: 0.1 * i },
+                    y: {
+                      duration: 4 + i * 0.35,
+                      delay: 0.1 * i,
+                      repeat: Infinity,
+                      repeatType: "mirror",
+                      ease: "easeInOut",
+                    },
+                  }}
+                >
+                  <img src={src} alt={`Concept ${i + 1}`} />
+                </motion.div>
+              )
+            )}
+          </div>
+
+          <div className="hero-copy premium-copy">
+            <div className="badges">
+              <span className="badge">{t.heroEyebrow}</span>
+              <span className="badge pink">{t.floatingTagA}</span>
+              <span className="badge green">{t.floatingTagB}</span>
+            </div>
+
+            <h1>{t.heroTitle}</h1>
+            <p className="lead">{t.heroSubtitle}</p>
+            <p className="sublead">{t.heroSupporting}</p>
+
+            <div className="cta-row">
+              <a className="button primary" href="#serie">
+                {t.ctaPrimary}
+              </a>
+              <a className="button secondary" href="#proyecto">
+                {t.ctaSecondary}
+              </a>
+            </div>
+
+            <div className="metrics">
+              {t.metrics.map((metric) => (
+                <div className="metric-card" key={metric.label}>
+                  <div className="metric-value">{metric.value}</div>
+                  <div className="metric-label">{metric.label}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <motion.div
+            className="hero-stage"
+            initial={{ opacity: 0, y: 18 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+          >
+
+            <div className="hero-characters">
+              <div className="floating-card left-card">
+                <img src={images.micro} alt="Micro" className="transparent-hero-img" />
+              </div>
+
+              <div className="floating-card center-card">
+                <img src={images.gigaBaby} alt="Giga" className="transparent-hero-img giga-main" />
+              </div>
+
+              <div className="floating-card right-card">
+                <img src={images.moustache} alt="Moustache" className="transparent-hero-img" />
+              </div>
+            </div>
+
+            <div className="covers-row single-cover-row">
+              <ImageCard
+                src={images.francisCompo}
+                alt="Francis, Mega and Giga"
+                className="cover-card cover-card-large"
+                contain
+                transparent
+              />
+            </div>
+          </motion.div>
+        </section>
+
+        <section id="proyecto" className="editorial-intro">
+          <div className="intro-panel">
+            <div className="section-kicker">{t.sectionKickers.project}</div>
+            <h2>{t.projectTitle}</h2>
+            <p>{t.projectText}</p>
+            <p>{t.projectText2}</p>
+          </div>
+
+          <div className="intro-visual no-card-visual">
+            <img
+              src={images.comparison}
+              alt="Comparativa visual"
+              className="floating-project-image"
+            />
+          </div>
+        </section>
+
+        <section id="serie" className="project-block project-series premium-section">
+          <div className="project-grid">
+            <div className="project-copy">
+              <div className="section-kicker green-text">{t.seriesKicker}</div>
+              <h2>{t.seriesTitle}</h2>
+              <p className="project-lead">{t.seriesLead}</p>
+              <p className="project-lead secondary-lead">{t.seriesLead2}</p>
+              <BulletList items={t.seriesBullets} />
+            </div>
+
+            <div className="project-visuals premium-visuals">
+              <ImageCard src={images.francis} alt="Francis" contain transparent />
+              <ImageCard src={images.chachiyeti} alt="Chachiyeti" contain transparent />
+              <ImageCard src={images.gigaBaby} alt="Giga bebé" contain transparent />
+              <ImageCard src={images.micro} alt="Micro" contain transparent />
+            </div>
+          </div>
+        </section>
+
+        <section id="peli" className="project-block project-film premium-section">
+          <div className="project-grid reverse-grid">
+            <div className="project-visuals movie-visuals">
+              <ImageCard src={images.hero1} alt="Novela 1" />
+              <ImageCard src={images.hero2} alt="Novela 2" />
+            </div>
+
+            <div className="project-copy">
+              <div className="section-kicker pink-text">{t.filmKicker}</div>
+              <h2>{t.filmTitle}</h2>
+              <p className="project-lead">{t.filmLead}</p>
+              <BulletList items={t.filmBullets} />
+            </div>
+          </div>
+        </section>
+
+        <section className="split-section universe-premium">
+          <div className="panel dark big-panel">
+            <div className="section-kicker">{t.sectionKickers.universe}</div>
+            <h2>{t.universeTitle}</h2>
+            <p>{t.universeText}</p>
+            <p>{t.universeText2}</p>
+          </div>
+
+          <ImageCard src={images.characterSheet} alt="Character sheet" className="sheet-card" />
+        </section>
+
+        <section id="galeria" className="gallery-section">
+          <div className="section-heading with-copy">
+            <div>
+              <div className="section-kicker">{t.sectionKickers.gallery}</div>
+              <h2>{t.galleryTitle}</h2>
+            </div>
+          </div>
+
+          <GallerySlider items={galleryItems} t={t} />
+        </section>
+
+        <section className="strengths-section">
+          <div className="section-heading">
+            <div className="section-kicker">{t.sectionKickers.highlights}</div>
+            <h2>{t.strengthsTitle}</h2>
+          </div>
+
+          <div className="pillar-grid">
+            {t.strengths.map((pillar) => (
+              <div className="pillar-card" key={pillar.title}>
+                <div className="pillar-icon">✦</div>
+                <h3>{pillar.title}</h3>
+                <p>{pillar.text}</p>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        <section id="contacto" className="contact-section">
+          <div className="contact-card">
+            <div>
+              <div className="section-kicker">{t.sectionKickers.contact}</div>
+              <h2>{t.contactTitle}</h2>
+              <p>{t.contactText}</p>
+            </div>
+
+            <a className="contact-link" href="mailto:cacereshernandez.jorge@gmail.com">
+              {t.contactCta}
+              <span>cacereshernandez.jorge@gmail.com</span>
+            </a>
+          </div>
+        </section>
+      </main>
+    </div>
+  );
+}
