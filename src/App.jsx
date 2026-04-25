@@ -6,6 +6,11 @@ const images = {
   hero2: "/images/hero-cover-2.jpg",
   francisCompo: "/images/hero-cover-2.png",
   comparison: "/images/comparison.png",
+  merchDisplay: "/images/merch/merch-display.jpg",
+  merchSoftToys: "/images/merch/merch-soft-toys.jpg",
+  mega3d: "/images/merch/mega-3d-render.png",
+  chachiyeti3d: "/images/merch/chachiyeti-3d-render.png",
+  chuchicornio3d: "/images/merch/chuchicornio-3d-render.png",
   characterSheet: "/images/character-sheet.jpg",
   gigaBaby: "/images/giga-baby.png",
   micro: "/images/micro.png",
@@ -39,8 +44,8 @@ const copy = {
     floatingTagB: "Bilingüe ES/EN",
 
     metrics: [
-      { value: "30", label: "episodios planteados" },
-      { value: "1–2 min", label: "duración por episodio" },
+      { value: "90", label: "episodios planteados" },
+      { value: "20 seg", label: "duración por episodio" },
       { value: "4–7", label: "target principal" },
       { value: "YouTube", label: "ventana inicial" },
     ],
@@ -55,9 +60,30 @@ const copy = {
 
     projectTitle: "Una IP con una estrategia clara de crecimiento",
     projectText:
-      "Superchuches combina un universo sólido, personajes reconocibles y una dirección visual con fuerte identidad.",
+      "Superchuches combina un universo sólido, personajes altamente reconocibles y una dirección visual con una identidad fuerte y diferencial.",
     projectText2:
-      "La estrategia es construir marca a través de una serie short-form, validar el tono y la conexión con la audiencia, y escalar después hacia un largometraje ambientado en el mismo mundo.",
+      "La estrategia parte de una serie short-form como punto de entrada: un formato ágil que permite construir audiencia, validar el tono y generar conexión emocional con el público desde el primer momento.",
+    projectText3:
+      "A partir de esa base, el proyecto está diseñado para escalar hacia un largometraje ambientado en el mismo universo, ampliando el alcance narrativo y el valor de la IP.",
+    projectText4:
+      "En paralelo, Superchuches nace con una clara vocación transmedia y comercial: su diseño de personajes y mundo permite desarrollar líneas de merchandising con alto potencial, desde productos actuales hasta futuras expansiones como peluches, libros de colorear, juguetes y otros formatos dirigidos al público infantil.",
+    projectGrowthLabel: "Serie · Película · Merchandising",
+    projectGrowthTitle: "De contenido digital a universo de productos",
+
+    synopsisKicker: "Sinopsis",
+    synopsisTitle: "La creatividad como aventura mágica",
+    synopsisHighlight:
+      "Las inspiraciones artísticas son criaturas mágicas que viven ocultas entre nosotros para ayudar a cada humano a descubrir su talento creativo.",
+    synopsisText:
+      "Entre ellas está Mega, una Superchuche verde especialista en novelas de fantasía, que acompaña a su humana Francis —a quien llama con cariño “la Esbirra”. Cada episodio presenta nuevas aventuras en las que Mega, Giga y otros seres como los Chuchicornios o los Chachiyetis resuelven retos inesperados.",
+    synopsisText2:
+      "Todo ello mientras lidian con una amenaza constante: el miedo, que intenta frenar la creatividad y apagar la imaginación. Con humor, ternura y fantasía, la serie anima a niños y niñas a confiar en su creatividad.",
+    synopsisHighlights: [
+      "Creatividad",
+      "Humor",
+      "Ternura",
+      "Fantasía",
+    ],
 
     seriesKicker: "Proyecto principal",
     seriesTitle: "Serie animada infantil para YouTube",
@@ -67,7 +93,7 @@ const copy = {
       "Su planteamiento permite construir comunidad, testar personajes y tono, y convertir el universo en una propuesta con recorrido real desde una primera fase de desarrollo.",
 
     seriesBullets: [
-      "30 episodios de 1 a 2 minutos con salida semanal.",
+      "90 episodios de 20 segundos con salida semanal.",
       "Público objetivo de 4 a 7 años.",
       "Formato diseñado para YouTube y plataformas digitales.",
       "Audio en español e inglés.",
@@ -146,8 +172,8 @@ const copy = {
     floatingTagB: "Bilingual ES/EN",
 
     metrics: [
-      { value: "30", label: "planned episodes" },
-      { value: "1–2 min", label: "episode length" },
+      { value: "90", label: "planned episodes" },
+      { value: "20 sec", label: "episode length" },
       { value: "4–7", label: "core target" },
       { value: "YouTube", label: "initial window" },
     ],
@@ -162,9 +188,30 @@ const copy = {
 
     projectTitle: "One IP with a clear growth strategy",
     projectText:
-      "Superchuches combines a solid universe, recognizable characters and a strong visual identity.",
+      "Superchuches combines a solid universe, highly recognizable characters and a strong, distinctive visual identity.",
     projectText2:
-      "The strategy is to build the brand through a short-form series, validate tone and audience connection, and then scale into a feature film set in the same world.",
+      "The strategy starts with a short-form series as the entry point: an agile format designed to build audience, validate tone and create emotional connection from the very beginning.",
+    projectText3:
+      "From that foundation, the project is designed to scale into a feature film set in the same universe, expanding both the narrative scope and the value of the IP.",
+    projectText4:
+      "At the same time, Superchuches has a clear transmedia and commercial direction: its character and world design can support high-potential merchandising lines, from current products to future expansions such as plush toys, coloring books, toys and other child-focused formats.",
+    projectGrowthLabel: "Series · Film · Merchandising",
+    projectGrowthTitle: "From digital content to product universe",
+    
+    synopsisKicker: "Synopsis",
+    synopsisTitle: "Creativity as a magical adventure",
+    synopsisHighlight:
+      "Artistic inspirations are magical creatures hidden among us, helping each human discover their creative talent.",
+    synopsisText:
+      "One of them is Mega, a green Superchuche specialized in fantasy novels, who accompanies her human Francis —affectionately known as “la Esbirra”. Each episode follows new adventures where Mega, Giga and other beings such as Chuchicornios or Chachiyetis solve unexpected challenges.",
+    synopsisText2:
+      "All while facing a constant threat: fear, which tries to stop creativity and dim imagination. With humor, tenderness and fantasy, the series encourages children to trust their own creativity.",
+    synopsisHighlights: [
+      "Creativity",
+      "Humor",
+      "Tenderness",
+      "Fantasy",
+    ],
 
     seriesKicker: "Primary project",
     seriesTitle: "Animated kids series for YouTube",
@@ -174,7 +221,7 @@ const copy = {
       "Its structure makes it possible to build community, test characters and tone, and turn the universe into a property with real long-term potential from an early stage.",
 
     seriesBullets: [
-      "30 episodes of 1 to 2 minutes released weekly.",
+      "90 episodes of 30 seconds released weekly.",
       "Target audience: children aged 4 to 7.",
       "Format designed for YouTube and digital platforms.",
       "Spanish and English audio.",
@@ -352,6 +399,62 @@ function GallerySlider({ items, t }) {
   );
 }
 
+function SynopsisPitch({ t }) {
+  return (
+    <section className="synopsis-pitch">
+      <div className="synopsis-copy">
+        <div className="section-kicker pink-text">{t.synopsisKicker}</div>
+        <h2>{t.synopsisTitle}</h2>
+
+        <p className="synopsis-highlight">{t.synopsisHighlight}</p>
+        <p>{t.synopsisText}</p>
+        <p>{t.synopsisText2}</p>
+
+        <div className="synopsis-tags">
+          {t.synopsisHighlights.map((item) => (
+            <span key={item}>{item}</span>
+          ))}
+        </div>
+      </div>
+
+      <div className="synopsis-visual">
+        <img src={images.concept} alt={t.synopsisTitle} />
+      </div>
+    </section>
+  );
+}
+
+function ProjectGrowthVisual({ t }) {
+  return (
+    <div className="growth-visual">
+      <div className="growth-main-photo">
+        <img src={images.merchDisplay} alt="Merchandising Superchuches" />
+      </div>
+
+      <div className="growth-render growth-render-a">
+        <img src={images.chuchicornio3d} alt="Chuchicornio 3D" />
+      </div>
+
+      <div className="growth-render growth-render-mega">
+        <img src={images.mega3d} alt="Mega 3D" />
+      </div>
+
+      <div className="growth-render growth-render-b">
+        <img src={images.chachiyeti3d} alt="Chachiyeti 3D" />
+      </div>
+
+      <div className="growth-inset-photo">
+        <img src={images.merchSoftToys} alt="Peluches y merchandising" />
+      </div>
+
+      <div className="growth-caption">
+        <span>{t.projectGrowthLabel}</span>
+        <strong>{t.projectGrowthTitle}</strong>
+      </div>
+    </div>
+  );
+}
+
 export default function App() {
   const [lang, setLang] = useState("es");
   const t = useMemo(() => copy[lang], [lang]);
@@ -391,35 +494,6 @@ export default function App() {
 
       <main className="container">
         <section className="hero-premium">
-          <div className="hero-top-concepts">
-            {[images.sketch2, images.sketch3, images.sketch1, images.sketch4, images.sketch5].map(
-              (src, i) => (
-                <motion.div
-                  className={`top-concept top-concept-${i + 1}`}
-                  key={src}
-                  initial={{ opacity: 0, y: 18, scale: 0.9 }}
-                  animate={{
-                    opacity: 1,
-                    y: [4, -2, 4],
-                    scale: 1,
-                  }}
-                  transition={{
-                    opacity: { duration: 0.6, delay: 0.1 * i },
-                    scale: { duration: 0.6, delay: 0.1 * i },
-                    y: {
-                      duration: 4 + i * 0.35,
-                      delay: 0.1 * i,
-                      repeat: Infinity,
-                      repeatType: "mirror",
-                      ease: "easeInOut",
-                    },
-                  }}
-                >
-                  <img src={src} alt={`Concept ${i + 1}`} />
-                </motion.div>
-              )
-            )}
-          </div>
 
           <div className="hero-copy premium-copy">
             <div className="badges">
@@ -448,6 +522,36 @@ export default function App() {
                   <div className="metric-label">{metric.label}</div>
                 </div>
               ))}
+            </div>
+            
+            <div className="hero-top-concepts">
+              {[images.sketch3, images.sketch1, images.sketch4].map(
+                (src, i) => (
+                  <motion.div
+                    className={`top-concept top-concept-${i + 1}`}
+                    key={src}
+                    initial={{ opacity: 0, y: 18, scale: 0.9 }}
+                    animate={{
+                      opacity: 1,
+                      y: [4, -2, 4],
+                      scale: 1,
+                    }}
+                    transition={{
+                      opacity: { duration: 0.6, delay: 0.1 * i },
+                      scale: { duration: 0.6, delay: 0.1 * i },
+                      y: {
+                        duration: 4 + i * 0.35,
+                        delay: 0.1 * i,
+                        repeat: Infinity,
+                        repeatType: "mirror",
+                        ease: "easeInOut",
+                      },
+                    }}
+                  >
+                    <img src={src} alt={`Concept ${i + 1}`} />
+                  </motion.div>
+                )
+              )}
             </div>
           </div>
 
@@ -486,20 +590,26 @@ export default function App() {
 
         <section id="proyecto" className="editorial-intro">
           <div className="intro-panel">
-            <div className="section-kicker">{t.sectionKickers.project}</div>
+            <div className="section-kicker">
+              {lang === "es" ? "Proyecto" : "Project"}
+            </div>
+
             <h2>{t.projectTitle}</h2>
-            <p>{t.projectText}</p>
-            <p>{t.projectText2}</p>
+
+            <div className="project-strategy-text">
+              <p>{t.projectText}</p>
+              <p>{t.projectText2}</p>
+              <p>{t.projectText3}</p>
+              <p className="project-commercial-highlight">{t.projectText4}</p>
+            </div>
           </div>
 
-          <div className="intro-visual no-card-visual">
-            <img
-              src={images.comparison}
-              alt="Comparativa visual"
-              className="floating-project-image"
-            />
+          <div className="intro-visual growth-visual-wrap">
+            <ProjectGrowthVisual t={t} />
           </div>
         </section>
+
+        <SynopsisPitch t={t} />
 
         <section id="serie" className="project-block project-series premium-section">
           <div className="project-grid">
