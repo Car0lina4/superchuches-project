@@ -1,5 +1,5 @@
-import React, { useMemo, useRef, useState } from "react";
-import { motion } from "framer-motion";
+import React, { useEffect, useMemo, useRef, useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
 
 const images = {
   hero1: "/images/hero-cover-1.jpg",
@@ -24,11 +24,18 @@ const images = {
   sketch3: "/images/sketch-3.png",
   sketch4: "/images/sketch-4.png",
   sketch5: "/images/sketch-5.png",
+  introChuchicornio: "/images/intro-chuchicornio.png",
+  choloteModelSheet: "/images/production/cholote-model-sheet.png",
+  animationTest: "/images/production/superchuches-anim.mp4",
 };
 
 const copy = {
   es: {
-    nav: ["Proyecto", "Serie", "Peli", "Galería", "Contacto"],
+    introTitle: "Keep calm",
+    introSubtitle: "y haz clic para descubrir la magia",
+    introButton: "Entrar",
+
+    nav: ["Proyecto", "Serie", "Largometraje", "Galería", "Contacto"],
 
     heroEyebrow: "Presentación visual · IP de animación",
     heroTitle: "Superchuches",
@@ -69,6 +76,44 @@ const copy = {
       "En paralelo, Superchuches nace con una clara vocación transmedia y comercial: su diseño de personajes y mundo permite desarrollar líneas de merchandising con alto potencial, desde productos actuales hasta futuras expansiones como peluches, libros de colorear, juguetes y otros formatos dirigidos al público infantil.",
     projectGrowthLabel: "Serie · Película · Merchandising",
     projectGrowthTitle: "De contenido digital a universo de productos",
+
+    growthKicker: "Proyección",
+    growthTitle: "Escenario de crecimiento de la IP",
+    growthViews: "visualizaciones",
+    growthPhases: [
+      {
+        phase: "Fase 1",
+        title: "Validación",
+        metricType: "range",
+        start: 1,
+        end: 5,
+        progress: "30%",
+        text: "Lanzamiento de serie short-form para construir audiencia y validar personajes y tono.",
+        time: "0–6 meses",
+        art: images.micro,
+      },
+      {
+        phase: "Fase 2",
+        title: "Escalado",
+        metricType: "range",
+        start: 10,
+        end: 50,
+        progress: "65%",
+        text: "Producción continua, crecimiento de comunidad y primeras pruebas de merchandising.",
+        time: "6–18 meses",
+        art: images.sketch4,
+      },
+      {
+        phase: "Fase 3",
+        title: "Expansión",
+        metricType: "text",
+        metric: "IP + Licensing",
+        progress: "100%",
+        text: "Desarrollo de largometraje y expansión a productos: peluches, libros de colorear y juguetes.",
+        time: "18–36 meses",
+        art: images.sketch2,
+      },
+    ],
 
     synopsisKicker: "Sinopsis",
     synopsisTitle: "La creatividad como aventura mágica",
@@ -118,6 +163,11 @@ const copy = {
       "Las Superchuches nacen de la imaginación y se vinculan a distintas disciplinas creativas. Un sistema de familias, colores y funciones que construye una IP reconocible, flexible y expandible.",
     universeText2:
       "Ese planteamiento permite desarrollar nuevas criaturas, nuevas relaciones y nuevas historias sin perder identidad, abriendo la puerta a serie, largometraje y futuras extensiones del universo.",
+    
+    productionKicker: "Producción",
+    productionTitle: "Desarrollo visual y pruebas de animación",
+    productionText:
+      "El proyecto cuenta con material preparado para explorar diseño de personajes, vistas de producción, materiales, paletas de color y primeras pruebas de movimiento.",
 
     galleryTitle: "Universo visual",
     galleryLabels: {
@@ -156,6 +206,10 @@ const copy = {
     contactCta: "Escribir a Jorge Cáceres Hernández",
   },
   en: {
+    introTitle: "Keep calm",
+    introSubtitle: "and click to discover the magic",
+    introButton: "Enter",
+
     nav: ["Project", "Series", "Film", "Gallery", "Contact"],
 
     heroEyebrow: "Visual presentation · animation IP",
@@ -197,6 +251,44 @@ const copy = {
       "At the same time, Superchuches has a clear transmedia and commercial direction: its character and world design can support high-potential merchandising lines, from current products to future expansions such as plush toys, coloring books, toys and other child-focused formats.",
     projectGrowthLabel: "Series · Film · Merchandising",
     projectGrowthTitle: "From digital content to product universe",
+
+    growthKicker: "Projection",
+    growthTitle: "IP growth scenario",
+    growthViews: "views",
+    growthPhases: [
+      {
+        phase: "Phase 1",
+        title: "Validation",
+        metricType: "range",
+        start: 1,
+        end: 5,
+        progress: "30%",
+        text: "Short-form series launch to build audience and validate characters and tone.",
+        time: "0–6 months",
+        art: images.micro,
+      },
+      {
+        phase: "Phase 2",
+        title: "Scale-up",
+        metricType: "range",
+        start: 10,
+        end: 50,
+        progress: "65%",
+        text: "Continuous production, community growth and first merchandising tests.",
+        time: "6–18 months",
+        art: images.sketch4,
+      },
+      {
+        phase: "Phase 3",
+        title: "Expansion",
+        metricType: "text",
+        metric: "IP + Licensing",
+        progress: "100%",
+        text: "Feature film development and expansion into products: plush toys, coloring books and toys.",
+        time: "18–36 months",
+        art: images.sketch2,
+      },
+    ],
     
     synopsisKicker: "Synopsis",
     synopsisTitle: "Creativity as a magical adventure",
@@ -221,7 +313,7 @@ const copy = {
       "Its structure makes it possible to build community, test characters and tone, and turn the universe into a property with real long-term potential from an early stage.",
 
     seriesBullets: [
-      "90 episodes of 30 seconds released weekly.",
+      "90 episodes of 20 seconds released weekly.",
       "Target audience: children aged 4 to 7.",
       "Format designed for YouTube and digital platforms.",
       "Spanish and English audio.",
@@ -246,6 +338,11 @@ const copy = {
       "Superchuches are born from imagination and linked to different creative disciplines. A system of families, colors and roles that creates a recognizable, flexible and expandable IP.",
     universeText2:
       "This approach makes it possible to introduce new creatures, new relationships and new stories without losing identity, opening the door to series, feature film and future universe expansion.",
+
+    productionKicker: "Production",
+    productionTitle: "Visual development and animation tests",
+    productionText:
+      "The project includes material to explore character design, production views, materials, color palettes and early motion tests.",
 
     galleryTitle: "Visual universe",
     galleryLabels: {
@@ -455,12 +552,87 @@ function ProjectGrowthVisual({ t }) {
   );
 }
 
+function AnimatedCounter({ end, suffix = "" }) {
+  const [value, setValue] = useState(0);
+
+  useEffect(() => {
+    let start = 0;
+    const duration = 1200;
+    const startTime = performance.now();
+
+    const animate = (currentTime) => {
+      const progress = Math.min((currentTime - startTime) / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 3);
+      const nextValue = Math.round(start + (end - start) * eased);
+
+      setValue(nextValue);
+
+      if (progress < 1) requestAnimationFrame(animate);
+    };
+
+    requestAnimationFrame(animate);
+  }, [end]);
+
+  return (
+    <>
+      {value}
+      {suffix}
+    </>
+  );
+}
+
 export default function App() {
   const [lang, setLang] = useState("es");
   const t = useMemo(() => copy[lang], [lang]);
+  const [showIntro, setShowIntro] = useState(true);
 
   return (
     <div className="page-shell">
+      <AnimatePresence>
+        {showIntro && (
+          <motion.div
+            className="intro-cover"
+            initial={{ opacity: 1 }}
+            animate={{ opacity: 1 }}
+            exit={{
+              opacity: 0,
+              scale: 1.04,
+              filter: "blur(18px)",
+            }}
+            transition={{ duration: 0.85, ease: [0.22, 1, 0.36, 1] }}
+          >
+            
+            <div className="lang-switch intro-lang-switch">
+              <button className={lang === "es" ? "active" : ""} onClick={() => setLang("es")}>
+                ES
+              </button>
+              <button className={lang === "en" ? "active" : ""} onClick={() => setLang("en")}>
+                EN
+              </button>
+            </div>
+
+            <motion.div
+              className="intro-cover-content"
+              initial={{ opacity: 0, y: 20, scale: 0.96 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: -18, scale: 0.96 }}
+              transition={{ duration: 0.7, ease: "easeOut" }}
+            >
+
+              <img src={images.introChuchicornio} alt="Chuchicornio" />
+
+              <div className="intro-cover-text">
+                <span>{t.introTitle}</span>
+                <h1>{t.introSubtitle}</h1>
+                <button type="button" onClick={() => setShowIntro(false)}>
+                  {t.introButton}
+                </button>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       <div className="bg-orb orb-a" />
       <div className="bg-orb orb-b" />
       <div className="bg-orb orb-c" />
@@ -609,6 +781,44 @@ export default function App() {
           </div>
         </section>
 
+        <section className="growth-stats">
+          <div className="section-kicker">{t.growthKicker}</div>
+          <h2>{t.growthTitle}</h2>
+
+          <div className="growth-stats-grid">
+            {t.growthPhases.map((phase) => (
+              <div className="growth-phase" key={phase.title}>
+                <img src={phase.art} alt="" className="phase-bg-art" />
+
+                <span className="phase-tag">{phase.phase}</span>
+                <h3>{phase.title}</h3>
+
+                <div className="phase-metric">
+                  {phase.metricType === "range" ? (
+                    <>
+                      <AnimatedCounter end={phase.start} suffix="M" /> –{" "}
+                      <AnimatedCounter end={phase.end} suffix="M" />
+                      <span>{t.growthViews}</span>
+                    </>
+                  ) : (
+                    phase.metric
+                  )}
+                </div>
+
+                <div className="phase-progress">
+                  <div
+                    className="phase-progress-bar"
+                    style={{ "--progress": phase.progress }}
+                  />
+                </div>
+
+                <p className="phase-desc">{phase.text}</p>
+                <span className="phase-time">{phase.time}</span>
+              </div>
+            ))}
+          </div>
+        </section>
+
         <SynopsisPitch t={t} />
 
         <section id="serie" className="project-block project-series premium-section">
@@ -655,6 +865,31 @@ export default function App() {
           </div>
 
           <ImageCard src={images.characterSheet} alt="Character sheet" className="sheet-card" />
+        </section>
+
+        <section className="production-section">
+          <div className="section-heading">
+            <div className="section-kicker">{t.productionKicker}</div>
+            <h2>{t.productionTitle}</h2>
+            <p>{t.productionText}</p>
+          </div>
+
+          <div className="production-grid">
+            <div className="production-card production-card-sheet">
+              <img src={images.choloteModelSheet} alt="Cholote model sheet" />
+            </div>
+
+            <div className="production-card production-card-video">
+              <video
+                src={images.animationTest}
+                autoPlay
+                loop
+                muted
+                playsInline
+                preload="metadata"
+              />
+            </div>
+          </div>
         </section>
 
         <section id="galeria" className="gallery-section">
