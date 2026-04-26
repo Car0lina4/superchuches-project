@@ -1,5 +1,6 @@
 import React, { useMemo, useRef, useState } from "react";
 import { motion } from "framer-motion";
+import { Analytics } from "@vercel/analytics/react";
 
 const images = {
   hero1: "/images/hero-cover-1.jpg",
@@ -700,6 +701,7 @@ export default function App() {
           </div>
         </section>
       </main>
+      <Analytics />
     </div>
   );
 }
