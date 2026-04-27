@@ -24,6 +24,7 @@ const images = {
   sketch3: "/images/sketch-3.png",
   sketch4: "/images/sketch-4.png",
   sketch5: "/images/sketch-5.png",
+  sketch6: "/images/sketch-6.png",
   introChuchicornio: "/images/intro-chuchicornio.png",
   choloteModelSheet: "/images/production/cholote-model-sheet.png",
   animationTest: "/images/production/superchuches-anim.mp4",
@@ -101,7 +102,7 @@ const copy = {
         progress: "65%",
         text: "Producción continua, crecimiento de comunidad y primeras pruebas de merchandising.",
         time: "6–18 meses",
-        art: images.sketch4,
+        art: images.sketch6,
       },
       {
         phase: "Fase 3",
@@ -382,55 +383,22 @@ const copy = {
   },
 };
 
-const galleryItems = [  
+const galleryItems = [
   {
-    src: "/images/gallery/hero-cover-2.png",
-    alt: "Francis y las Superchuches",
-    contain: true,
-    labelKey: "emotionalCore",
+    src: "/images/gallery/gallery-bunny.png",
+    alt: "Personaje Superchuches naranja",
   },
   {
-    src: "/images/gallery/visual-identity-comparison.png",
-    alt: "Comparativa visual del proyecto",
-    contain: true,
-    labelKey: "visualIdentity",
+    src: "/images/gallery/gallery-owl.png",
+    alt: "Personaje Superchuches búho",
   },
   {
-    src: "/images/gallery/main-character-giga.jpg",
-    alt: "Giga",
-    contain: true,
-    labelKey: "mainCharacter",
+    src: "/images/gallery/gallery-axolotl.png",
+    alt: "Personaje Superchuches anfibio",
   },
   {
-    src: "/images/gallery/supporting-character-micro.png",
-    alt: "Micro",
-    contain: true,
-    labelKey: "supportingCharacter",
-  },
-  {
-    src: "/images/gallery/supporting-character-moustache.png",
-    alt: "Moustache",
-    contain: true,
-    labelKey: "supportingCharacter",
-  },
-  {
-    src: "/images/gallery/development-sketch.png",
-    alt: "Sketch de desarrollo",
-    contain: true,
-    labelKey: "development",
-  },
-  {
-    src: "/images/gallery/character-universe-sheet.png",
-    alt: "Carta de personajes",
-    contain: false,
-    labelKey: "characterUniverse",
-  },
-  {
-    src: "/images/gallery/scene-story-moment.png",
-    alt: "Escena narrativa del universo Superchuches",
-    contain: false,
-    labelKey: "storyMoment",
-    featured: true,
+    src: "/images/gallery/gallery-pilot.png",
+    alt: "Personaje Superchuches piloto",
   },
 ];
 
@@ -478,16 +446,12 @@ function GallerySlider({ items, t }) {
             className={`gallery-slide ${item.featured ? "featured-slide" : ""}`}
             key={`${item.src}-${index}`}
           >
-            <div className="gallery-label">
-              {t.galleryLabels[item.labelKey]}
-            </div>
-
             <ImageCard
               src={item.src}
               alt={item.alt}
-              contain={item.contain}
-              transparent={item.contain}
-              className="gallery-image"
+              contain
+              transparent
+              className="gallery-image character-gallery-image"
             />
           </article>
         ))}
