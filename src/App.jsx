@@ -4,7 +4,7 @@ import { AnimatePresence, motion } from "framer-motion";
 const images = {
   hero1: "/images/hero-cover-1.jpg",
   hero2: "/images/hero-cover-2.jpg",
-  francisCompo: "/images/hero-cover-2.png",
+  francisCompo: "/images/renders/hero-cover-2-render.png",
   comparison: "/images/comparison.png",
   merchDisplay: "/images/merch/merch-display.jpg",
   merchSoftToys: "/images/merch/merch-soft-toys.jpg",
@@ -12,22 +12,22 @@ const images = {
   chachiyeti3d: "/images/merch/chachiyeti-3d-render.png",
   chuchicornio3d: "/images/merch/chuchicornio-3d-render.png",
   characterSheet: "/images/character-sheet.jpg",
-  gigaBaby: "/images/giga-baby.png",
-  micro: "/images/micro.png",
-  moustache: "/images/moustache.png",
-  chachiyeti: "/images/chachiyeti.png",
+  gigaBaby: "/images/renders/giga-baby-render.png",
+  micro: "/images/renders/micro-render.png",
+  moustache: "/images/renders/moustache-render.png",
+  chachiyeti: "/images/renders/chachiyeti-render.png",
   daniel: "/images/daniel.png",
-  francis: "/images/francis.png",
+  francis: "/images/renders/francis-render.png",
   concept: "/images/scene-concept.jpg",
-  sketch1: "/images/sketch-1.png",
-  sketch2: "/images/sketch-2.png",
-  sketch3: "/images/sketch-3.png",
-  sketch4: "/images/sketch-4.png",
+  sketch1: "/images/renders/sketch-1-render.png",
+  sketch2: "/images/renders/sketch-2-render.png",
+  sketch3: "/images/renders/sketch-3-render.png",
+  sketch4: "/images/renders/sketch-4-render.png",
   sketch5: "/images/sketch-5.png",
-  sketch6: "/images/sketch-6.png",
-  introChuchicornio: "/images/intro-chuchicornio.png",
+  sketch6: "/images/renders/sketch-6-render.png",
+  introChuchicornio: "/images/renders/intro-chuchicornio-render.png",
   choloteModelSheet: "/images/production/cholote-model-sheet.png",
-  animationTest: "/images/production/superchuches-anim.mp4",
+  animationTest: "/images/production/mandarina_birth.mp4",
 };
 
 const copy = {
@@ -204,7 +204,7 @@ const copy = {
     contactTitle: "Contacto",
     contactText:
       "Para solicitar dossier, hablar del desarrollo o explorar posibles colaboraciones, puedes escribir directamente aquí:",
-    contactCta: "Escribir a Jorge Cáceres Hernández",
+    contactCta: "Escribir a Aguaviva Animation",
   },
   en: {
     introTitle: "Keep calm",
@@ -379,25 +379,33 @@ const copy = {
     contactTitle: "Contact",
     contactText:
       "To request the dossier, discuss development or explore collaboration opportunities, feel free to reach out:",
-    contactCta: "Email Jorge Cáceres Hernández",
+    contactCta: "Email Aguaviva Animation",
   },
 };
 
 const galleryItems = [
   {
-    src: "/images/gallery/gallery-bunny.png",
+    src: "/images/gallery/renders/gallery-bunny-render.png",
     alt: "Personaje Superchuches naranja",
   },
   {
-    src: "/images/gallery/gallery-owl.png",
+    src: "/images/gallery/renders/gallery-owl-render.png",
     alt: "Personaje Superchuches búho",
   },
   {
-    src: "/images/gallery/gallery-axolotl.png",
+    src: "/images/gallery/renders/gallery-axolotl-render.png",
     alt: "Personaje Superchuches anfibio",
   },
   {
-    src: "/images/gallery/gallery-pilot.png",
+    src: "/images/gallery/renders/gallery-pilot-render.png",
+    alt: "Personaje Superchuches piloto",
+  },
+  {
+    src: "/images/gallery/renders/gallery-snake-render.png",
+    alt: "Personaje Superchuches piloto",
+  },
+  {
+    src: "/images/gallery/renders/gallery-micro-render.png",
     alt: "Personaje Superchuches piloto",
   },
 ];
@@ -892,9 +900,9 @@ export default function App() {
               <p>{t.contactText}</p>
             </div>
 
-            <a className="contact-link" href="mailto:cacereshernandez.jorge@gmail.com">
+            <a className="contact-link" href="mailto:info@aguavivaanimation.com">
               {t.contactCta}
-              <span>cacereshernandez.jorge@gmail.com</span>
+              <span>info@aguavivaanimation.com</span>
             </a>
           </div>
         </section>
