@@ -2,22 +2,24 @@ import React, { useEffect, useMemo, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 
 const images = {
+  logo: "/images/superchuches-logo.png",
   hero1: "/images/hero-cover-1.jpg",
   hero2: "/images/hero-cover-2.jpg",
-  francisCompo: "/images/renders/hero-cover-2-render.png",
+  lunaCompo: "/images/renders/hero-cover-2-render.png",
   comparison: "/images/comparison.png",
-  merchDisplay: "/images/merch/merch-display.jpg",
-  merchSoftToys: "/images/merch/merch-soft-toys.jpg",
+  merchDisplay: "/images/merch/merch-display.png",
+  merchSoftToys: "/images/merch/merch-soft-toys.png",
   mega3d: "/images/merch/mega-3d-render.png",
   chachiyeti3d: "/images/merch/chachiyeti-3d-render.png",
   chuchicornio3d: "/images/merch/chuchicornio-3d-render.png",
   characterSheet: "/images/character-sheet.jpg",
   gigaBaby: "/images/renders/giga-baby-render.png",
+  giga: "/images/renders/giga-render.png",
   micro: "/images/renders/micro-render.png",
   moustache: "/images/renders/moustache-render.png",
   chachiyeti: "/images/renders/chachiyeti-render.png",
   daniel: "/images/daniel.png",
-  francis: "/images/renders/francis-render.png",
+  luna: "/images/renders/luna-render.png",
   concept: "/images/scene-concept.jpg",
   sketch1: "/images/renders/sketch-1-render.png",
   sketch2: "/images/renders/sketch-2-render.png",
@@ -121,7 +123,7 @@ const copy = {
     synopsisHighlight:
       "Las inspiraciones artísticas son criaturas mágicas que viven ocultas entre nosotros para ayudar a cada humano a descubrir su talento creativo.",
     synopsisText:
-      "Entre ellas está Mega, una Superchuche verde especialista en novelas de fantasía, que acompaña a su humana Francis —a quien llama con cariño “la Esbirra”. Cada episodio presenta nuevas aventuras en las que Mega, Giga y otros seres como los Chuchicornios o los Chachiyetis resuelven retos inesperados.",
+      "Entre ellas está Mega, una Superchuche verde especialista en novelas de fantasía, que acompaña a su humana Luna —a quien llama con cariño “la Esbirra”. Cada episodio presenta nuevas aventuras en las que Mega, Giga y otros seres como los Chuchicornios o los Chachiyetis resuelven retos inesperados.",
     synopsisText2:
       "Todo ello mientras lidian con una amenaza constante: el miedo, que intenta frenar la creatividad y apagar la imaginación. Con humor, ternura y fantasía, la serie anima a niños y niñas a confiar en su creatividad.",
     synopsisHighlights: [
@@ -296,7 +298,7 @@ const copy = {
     synopsisHighlight:
       "Artistic inspirations are magical creatures hidden among us, helping each human discover their creative talent.",
     synopsisText:
-      "One of them is Mega, a green Superchuche specialized in fantasy novels, who accompanies her human Francis —affectionately known as “la Esbirra”. Each episode follows new adventures where Mega, Giga and other beings such as Chuchicornios or Chachiyetis solve unexpected challenges.",
+      "One of them is Mega, a green Superchuche specialized in fantasy novels, who accompanies her human Luna —affectionately known as “la Esbirra”. Each episode follows new adventures where Mega, Giga and other beings such as Chuchicornios or Chachiyetis solve unexpected challenges.",
     synopsisText2:
       "All while facing a constant threat: fear, which tries to stop creativity and dim imagination. With humor, tenderness and fantasy, the series encourages children to trust their own creativity.",
     synopsisHighlights: [
@@ -393,7 +395,7 @@ const galleryItems = [
     alt: "Personaje Superchuches búho",
   },
   {
-    src: "/images/gallery/renders/gallery-axolotl-render.png",
+    src: "/images/gallery/renders/gallery-pistacho-render.png",
     alt: "Personaje Superchuches anfibio",
   },
   {
@@ -405,7 +407,11 @@ const galleryItems = [
     alt: "Personaje Superchuches piloto",
   },
   {
-    src: "/images/gallery/renders/gallery-micro-render.png",
+    src: "/images/gallery/renders/gallery-vainilla-render.png",
+    alt: "Personaje Superchuches piloto",
+  },
+  {
+    src: "/images/gallery/renders/gallery-moustache-render.png",
     alt: "Personaje Superchuches piloto",
   },
 ];
@@ -611,11 +617,11 @@ export default function App() {
 
       <header className="site-header">
         <div className="brand">
-          <div className="brand-icon">✦</div>
-          <div>
-            <div className="brand-title">Superchuches</div>
-            <div className="brand-subtitle">Visual pitch website</div>
-          </div>
+          <img
+            src={images.logo}
+            alt="Superchuches"
+            className="brand-logo"
+          />
         </div>
 
         <nav className="nav">
@@ -646,7 +652,15 @@ export default function App() {
               <span className="badge green">{t.floatingTagB}</span>
             </div>
 
-            <h1>{t.heroTitle}</h1>
+            <h1 className="hero-logo-heading">
+              <span className="sr-only">{t.heroTitle}</span>
+              <img
+                src={images.logo}
+                alt=""
+                aria-hidden="true"
+                className="hero-logo"
+              />
+            </h1>
             <p className="lead">{t.heroSubtitle}</p>
             <p className="sublead">{t.heroSupporting}</p>
 
@@ -722,8 +736,8 @@ export default function App() {
 
             <div className="covers-row single-cover-row">
               <ImageCard
-                src={images.francisCompo}
-                alt="Francis, Mega and Giga"
+                src={images.lunaCompo}
+                alt="Luna, Mega and Giga"
                 className="cover-card cover-card-large"
                 contain
                 transparent
@@ -804,9 +818,9 @@ export default function App() {
             </div>
 
             <div className="project-visuals premium-visuals">
-              <ImageCard src={images.francis} alt="Francis" contain transparent />
+              <ImageCard src={images.luna} alt="Luna" contain transparent />
               <ImageCard src={images.chachiyeti} alt="Chachiyeti" contain transparent />
-              <ImageCard src={images.gigaBaby} alt="Giga bebé" contain transparent />
+              <ImageCard src={images.giga} alt="Giga bebé" contain transparent />
               <ImageCard src={images.micro} alt="Micro" contain transparent />
             </div>
           </div>
