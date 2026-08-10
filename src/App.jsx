@@ -1,926 +1,861 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 
+/*
+  SUPERCHUCHES WEB v1.5
+  --------------------
+  Estructura congelada según el plan maestro aprobado.
+
+  Assets nuevos esperados (puedes cambiar las rutas aquí sin tocar el layout):
+  - /images/hero/hero-luna-mega.jpg
+  - /images/teaser/teaser-thumb.jpg
+  - /images/world/park-normal.png
+  - /images/world/park-luna.png
+  - /images/renders/mega-peeking.png
+  - /images/renders/mega-render.png
+  - /images/renders/giga-render.png
+  - /images/renders/moustache-render.png
+  - /images/renders/micro-render.png
+  - /images/renders/sol-render.png
+  - /images/renders/pencil-render.png
+  - /images/renders/mandarina-render.png
+  - /images/renders/chinchilla-render.png
+  - /images/renders/tcho-render.png
+
+  Loops WebM con alpha disponibles ahora:
+  - /videos/characters/mega-loop.webm
+  - /videos/characters/giga-loop.webm
+  - /videos/characters/moustache-loop.webm
+  - /videos/characters/mandarina-loop.webm
+  - /videos/characters/micro-loop.webm
+  - /videos/characters/pencil-loop.webm
+  - /videos/characters/acuarela-loop.webm
+  - /videos/characters/sol-loop.webm
+  - /videos/characters/tcho-loop.webm
+
+  Si un personaje no tiene `loopSrc`, se usa automáticamente su PNG.
+*/
+
 const images = {
   logo: "/images/superchuches-logo.png",
-  hero1: "/images/hero-cover-1.jpg",
-  hero2: "/images/hero-cover-2.jpg",
-  lunaCompo: "/images/renders/hero-cover-2-render.png",
-  comparison: "/images/comparison.png",
-  merchDisplay: "/images/merch/merch-display.png",
-  merchSoftToys: "/images/merch/merch-soft-toys.png",
-  mega3d: "/images/merch/mega-3d-render.png",
-  chachiyeti3d: "/images/merch/chachiyeti-3d-render.png",
-  chuchicornio3d: "/images/merch/chuchicornio-3d-render.png",
-  characterSheet: "/images/character-sheet.jpg",
-  gigaBaby: "/images/renders/giga-baby-render.png",
+  heroFinal: "/images/hero/hero-luna-mega.jpg",
+  heroFallback: "/images/renders/hero-cover-2-render.png",
+  teaserThumb: "/images/teaser/teaser-thumb.jpg",
+  megaPeeking: "/images/renders/mega-peeking.png",
+  megaRoster: "/images/renders/mega-render.png",
+
+  parkNormal: "/images/world/park-normal.png",
+  parkLuna: "/images/world/park-luna.png",
+
   giga: "/images/renders/giga-render.png",
   micro: "/images/renders/micro-render.png",
   moustache: "/images/renders/moustache-render.png",
-  chachiyeti: "/images/renders/chachiyeti-render.png",
-  daniel: "/images/daniel.png",
+  sol: "/images/renders/sol-render.png",
+  pencil: "/images/renders/pencil-render.png",
+  mandarina: "/images/renders/mandarina-render.png",
+  chinchilla: "/images/renders/chinchilla-render.png",
+  tcho: "/images/renders/tcho-render.png",
+
   luna: "/images/renders/luna-render.png",
-  concept: "/images/scene-concept.jpg",
-  sketch1: "/images/renders/sketch-1-render.png",
-  sketch2: "/images/renders/sketch-2-render.png",
-  sketch3: "/images/renders/sketch-3-render.png",
-  sketch4: "/images/renders/sketch-4-render.png",
-  sketch5: "/images/sketch-5.png",
-  sketch6: "/images/renders/sketch-6-render.png",
-  introChuchicornio: "/images/renders/intro-chuchicornio-render.png",
-  choloteModelSheet: "/images/production/cholote-model-sheet.png",
-  animationTest: "/images/production/mandarina_birth.mp4",
+  hero1: "/images/hero-cover-1.jpg",
+  hero2: "/images/hero-cover-2.jpg",
+  characterSheet: "/images/character-sheet.jpg",
+
+  gallery: [
+    "/images/gallery/renders/gallery-bunny-render.png",
+    "/images/gallery/renders/gallery-owl-render.png",
+    "/images/gallery/renders/gallery-pistacho-render.png",
+    "/images/gallery/renders/gallery-pilot-render.png",
+    "/images/gallery/renders/gallery-snake-render.png",
+    "/images/gallery/renders/gallery-vainilla-render.png",
+    "/images/gallery/renders/gallery-moustache-render.png",
+  ],
 };
+
+const YOUTUBE_CHANNEL = "https://www.youtube.com/@SuperChuches";
+const YOUTUBE_EMBED = "https://www.youtube-nocookie.com/embed/pY-mcjJnJcY";
+const INSTAGRAM_AGUAVIVA = "https://www.instagram.com/aguavivaanim";
+const TIKTOK_SUPERCHUCHES = "https://www.tiktok.com/@superchuchesanim";
 
 const copy = {
   es: {
-    introTitle: "Keep calm",
-    introSubtitle: "y haz clic para descubrir la magia",
-    introButton: "Entrar",
+    nav: ["Descubrir", "Personajes", "Universo", "Serie + Film", "Industria"],
+    heroOverline: "UNA IP ORIGINAL DE AGUAVIVA ANIMATION",
+    heroTitle: "Hay un mundo que siempre ha estado ahí",
+    heroSubtitle: "La creatividad cobra vida",
+    heroPrimary: "Ver teaser",
+    heroSecondary: "Descubrir",
+    heroMeta: "Serie · Film · Universo transmedia",
+    heroYoutube: "Disponible en YouTube",
 
-    nav: ["Proyecto", "Serie", "Largometraje", "Galería", "Contacto"],
+    whisperA: "Algo está cambiando",
+    whisperB: "Solo tienes que aprender a verlo",
 
-    heroEyebrow: "Presentación visual · IP de animación",
-    heroTitle: "Superchuches",
-    heroSubtitle:
-      "Una IP de animación infantil con un universo visual único, diseñada para crecer desde serie short-form hasta largometraje.",
-    heroSupporting:
-      "La serie es el punto de entrada: permite construir audiencia, validar el tono y desarrollar el universo. La película amplía el mundo y multiplica el valor de la marca.",
+    teaserKicker: "DESCÚBRELAS",
+    teaserTitle: "La magia acaba de empezar",
+    teaserMeta: "TEASER OFICIAL · 2026",
+    teaserPlay: "Reproducir teaser",
 
-    ctaPrimary: "Ver serie",
-    ctaSecondary: "Ver universo",
+    whatKicker: "EL UNIVERSO",
+    whatTitle: "¿Qué son las SuperChuches?",
+    whatText:
+      "Las inspiraciones artísticas son criaturas mágicas que viven ocultas entre nosotros y ayudan a cada humano a descubrir su talento creativo.",
+    whatText2:
+      "Luna puede verlas. Para el resto del mundo, casi siempre pasan desapercibidas.",
 
-    floatingTagA: "Basado en novelas",
-    floatingTagB: "Bilingüe ES/EN",
-
-    metrics: [
-      { value: "90", label: "episodios planteados" },
-      { value: "20 seg", label: "duración por episodio" },
-      { value: "4–7", label: "target principal" },
-      { value: "YouTube", label: "ventana inicial" },
+    premise: [
+      "LA CREATIVIDAD",
+      "COBRA VIDA",
+      "PERO TAMBIÉN EXISTE EL MIEDO",
+      "Y TRATARÁ DE APAGARLA",
     ],
 
-    sectionKickers: {
-      project: "Proyecto",
-      universe: "Universo",
-      gallery: "Galería",
-      highlights: "Claves",
-      contact: "Contacto",
-    },
+    charactersKicker: "CONOCE A LAS SUPERCHUCHES",
+    charactersTitle: "Cada inspiración tiene su propia forma",
+    characterInspirationLabel: "Inspiración",
+    characterTraitsLabel: "Personalidad",
 
-    projectTitle: "Una IP con una estrategia clara de crecimiento",
-    projectText:
-      "Superchuches combina un universo sólido, personajes altamente reconocibles y una dirección visual con una identidad fuerte y diferencial.",
-    projectText2:
-      "La estrategia parte de una serie short-form como punto de entrada: un formato ágil que permite construir audiencia, validar el tono y generar conexión emocional con el público desde el primer momento.",
-    projectText3:
-      "A partir de esa base, el proyecto está diseñado para escalar hacia un largometraje ambientado en el mismo universo, ampliando el alcance narrativo y el valor de la IP.",
-    projectText4:
-      "En paralelo, Superchuches nace con una clara vocación transmedia y comercial: su diseño de personajes y mundo permite desarrollar líneas de merchandising con alto potencial, desde productos actuales hasta futuras expansiones como peluches, libros de colorear, juguetes y otros formatos dirigidos al público infantil.",
-    projectGrowthLabel: "Serie · Película · Merchandising",
-    projectGrowthTitle: "De contenido digital a universo de productos",
+    worldKicker: "EL MUNDO SUPERCHUCHES",
+    worldTitle: "Un universo escondido a simple vista",
+    worldText:
+      "La escena no cambia. Lo que cambia es quién puede ver lo que siempre estuvo allí.",
+    lunaButton: "Ver como Luna",
+    normalButton: "Volver al mundo normal",
+    compareHint: "Mueve el cursor para ver como Luna",
 
-    growthKicker: "Proyección",
-    growthTitle: "Escenario de crecimiento de la IP",
-    growthViews: "visualizaciones",
-    growthPhases: [
+    seriesFilmKicker: "AHORA / MAÑANA",
+    seriesFilmTitle: "La serie abre la puerta. El largometraje expande el mundo",
+    now: "AHORA",
+    series: "LA SERIE",
+    world: "EL MUNDO",
+    tomorrow: "MAÑANA",
+    film: "EL LARGOMETRAJE",
+    seriesText:
+      "El formato short-form permite construir audiencia, validar tono y desarrollar la relación con los personajes.",
+    filmText:
+      "El largometraje lleva el mismo universo a una escala emocional y cinematográfica mayor.",
+    seriesMeta: ["Short-form", "YouTube", "ES / EN"],
+    filmMeta: ["Largometraje", "Worldbuilding", "Expansión"],
+    seriesVisualLabel: "Descubrir a los personajes",
+    filmVisualLabel: "El universo crece",
+
+    galleryKicker: "GALERÍA",
+    galleryTitle: "Un mundo lleno de pequeños detalles",
+
+    industryKicker: "INFORMACIÓN PARA INDUSTRIA",
+    industryTitle: "Información para profesionales",
+    industryIntro:
+      "Formato, estrategia, expansión y vías de colaboración para productores, distribuidores, plataformas y posibles partners.",
+    industrySections: [
       {
-        phase: "Fase 1",
-        title: "Validación",
-        metricType: "range",
-        start: 1,
-        end: 5,
-        progress: "30%",
-        text: "Lanzamiento de serie short-form para construir audiencia y validar personajes y tono.",
-        time: "0–6 meses",
-        art: images.micro,
+        title: "Formato y audiencia",
+        body: "90 episodios planteados · 20 segundos · target 4–7 · ventana inicial en YouTube · audio ES/EN.",
       },
       {
-        phase: "Fase 2",
-        title: "Escalado",
-        metricType: "range",
-        start: 10,
-        end: 50,
-        progress: "65%",
-        text: "Producción continua, crecimiento de comunidad y primeras pruebas de merchandising.",
-        time: "6–18 meses",
-        art: images.sketch6,
+        title: "Estrategia de crecimiento",
+        body: "Serie short-form como punto de entrada, construcción de comunidad, validación de personajes y tono, y expansión posterior de la IP.",
       },
       {
-        phase: "Fase 3",
-        title: "Expansión",
-        metricType: "text",
-        metric: "IP + Licensing",
-        progress: "100%",
-        text: "Desarrollo de largometraje y expansión a productos: peluches, libros de colorear y juguetes.",
-        time: "18–36 meses",
-        art: images.sketch2,
-      },
-    ],
-
-    synopsisKicker: "Sinopsis",
-    synopsisTitle: "La creatividad como aventura mágica",
-    synopsisHighlight:
-      "Las inspiraciones artísticas son criaturas mágicas que viven ocultas entre nosotros para ayudar a cada humano a descubrir su talento creativo.",
-    synopsisText:
-      "Entre ellas está Mega, una Superchuche verde especialista en novelas de fantasía, que acompaña a su humana Luna —a quien llama con cariño “la Esbirra”. Cada episodio presenta nuevas aventuras en las que Mega, Giga y otros seres como los Chuchicornios o los Chachiyetis resuelven retos inesperados.",
-    synopsisText2:
-      "Todo ello mientras lidian con una amenaza constante: el miedo, que intenta frenar la creatividad y apagar la imaginación. Con humor, ternura y fantasía, la serie anima a niños y niñas a confiar en su creatividad.",
-    synopsisHighlights: [
-      "Creatividad",
-      "Humor",
-      "Ternura",
-      "Fantasía",
-    ],
-
-    seriesKicker: "Proyecto principal",
-    seriesTitle: "Serie animada infantil para YouTube",
-    seriesLead:
-      "La serie es la mejor puerta de entrada: formato ágil, producción optimizada y alto potencial de memorabilidad visual.",
-    seriesLead2:
-      "Su planteamiento permite construir comunidad, testar personajes y tono, y convertir el universo en una propuesta con recorrido real desde una primera fase de desarrollo.",
-
-    seriesBullets: [
-      "90 episodios de 20 segundos con salida semanal.",
-      "Público objetivo de 4 a 7 años.",
-      "Formato diseñado para YouTube y plataformas digitales.",
-      "Audio en español e inglés.",
-      "Tono divertido, optimista, imaginativo y muy visual.",
-      "Pipeline pensado para producción eficiente y escalable.",
-    ],
-
-    filmKicker: "Expansión de IP",
-    filmTitle: "Largometraje en el mismo universo",
-    filmLead:
-      "La película amplía el universo, profundiza en lo emocional y eleva el posicionamiento de la IP manteniendo coherencia visual y narrativa.",
-
-    filmBullets: [
-      "Misma identidad visual y mismo universo narrativo.",
-      "Mayor profundidad emocional y worldbuilding.",
-      "Escala más ambiciosa en personajes y conflicto.",
-      "Refuerzo estratégico del valor de la IP.",
-    ],
-
-    universeTitle: "Un universo con recorrido",
-    universeText:
-      "Las Superchuches nacen de la imaginación y se vinculan a distintas disciplinas creativas. Un sistema de familias, colores y funciones que construye una IP reconocible, flexible y expandible.",
-    universeText2:
-      "Ese planteamiento permite desarrollar nuevas criaturas, nuevas relaciones y nuevas historias sin perder identidad, abriendo la puerta a serie, largometraje y futuras extensiones del universo.",
-    
-    productionKicker: "Producción",
-    productionTitle: "Desarrollo visual y pruebas de animación",
-    productionText:
-      "El proyecto cuenta con material preparado para explorar diseño de personajes, vistas de producción, materiales, paletas de color y primeras pruebas de movimiento.",
-
-    galleryTitle: "Universo visual",
-    galleryLabels: {
-      storyMoment: "Momento narrativo",
-      emotionalCore: "Núcleo emocional",
-      characterUniverse: "Universo de personajes",
-      visualIdentity: "Identidad visual",
-      mainCharacter: "Personaje principal",
-      supportingCharacter: "Personaje secundario",
-      development: "Desarrollo",
-    },
-
-    strengthsTitle: "Claves del proyecto",
-    strengths: [
-      {
-        title: "IP diferenciada",
-        text: "Un universo propio con reglas claras y criaturas muy reconocibles.",
+        title: "Serie → Largometraje",
+        body: "La serie desarrolla audiencia y universo; el largometraje amplía el worldbuilding, la emoción y el posicionamiento de la propiedad.",
       },
       {
-        title: "Modelo escalable",
-        text: "La serie permite empezar de forma realista y crecer con recorrido.",
-      },
-      {
-        title: "Impacto visual",
-        text: "Diseño de personajes y dirección de arte con alto potencial de marca.",
-      },
-      {
-        title: "Vocación internacional",
-        text: "Proyecto bilingüe desde el inicio para facilitar pitch y partners.",
+        title: "Licensing, merchandising y dossier",
+        body: "SuperChuches está concebida para crecer hacia productos, licensing y nuevas extensiones del universo. El dossier profesional está disponible bajo solicitud a Aguaviva Animation.",
       },
     ],
 
-    contactTitle: "Contacto",
-    contactText:
-      "Para solicitar dossier, hablar del desarrollo o explorar posibles colaboraciones, puedes escribir directamente aquí:",
-    contactCta: "Escribir a Aguaviva Animation",
+    footerClaim: "La creatividad cobra vida.",
+    footerOriginal: "Una creación original de Aguaviva Animation",
+    contact: "Contacto",
   },
   en: {
-    introTitle: "Keep calm",
-    introSubtitle: "and click to discover the magic",
-    introButton: "Enter",
+    nav: ["Discover", "Characters", "World", "Series + Film", "Industry"],
+    heroOverline: "AN ORIGINAL IP BY AGUAVIVA ANIMATION",
+    heroTitle: "There is a world that has always been there",
+    heroSubtitle: "Creativity comes to life",
+    heroPrimary: "Watch teaser",
+    heroSecondary: "Discover",
+    heroMeta: "Series · Film · Transmedia universe",
+    heroYoutube: "Available on YouTube",
 
-    nav: ["Project", "Series", "Film", "Gallery", "Contact"],
+    whisperA: "Something is changing",
+    whisperB: "You only have to learn how to see it",
 
-    heroEyebrow: "Visual presentation · animation IP",
-    heroTitle: "Superchuches",
-    heroSubtitle:
-      "A kids animation IP with a unique visual universe, designed to grow from a short-form series into a feature film.",
-    heroSupporting:
-      "The series is the entry point: it builds audience, validates tone and develops the universe. The film expands the world and increases the IP’s value.",
+    teaserKicker: "MEET THEM",
+    teaserTitle: "The magic has only just begun",
+    teaserMeta: "TEASER OFICIAL · 2026",
+    teaserPlay: "Play teaser",
 
-    ctaPrimary: "View series",
-    ctaSecondary: "View universe",
-
-    floatingTagA: "Based on novels",
-    floatingTagB: "Bilingual ES/EN",
-
-    metrics: [
-      { value: "90", label: "planned episodes" },
-      { value: "20 sec", label: "episode length" },
-      { value: "4–7", label: "core target" },
-      { value: "YouTube", label: "initial window" },
-    ],
-
-    sectionKickers: {
-      project: "Project",
-      universe: "Universe",
-      gallery: "Gallery",
-      highlights: "Highlights",
-      contact: "Contact",
-    },
-
-    projectTitle: "One IP with a clear growth strategy",
-    projectText:
-      "Superchuches combines a solid universe, highly recognizable characters and a strong, distinctive visual identity.",
-    projectText2:
-      "The strategy starts with a short-form series as the entry point: an agile format designed to build audience, validate tone and create emotional connection from the very beginning.",
-    projectText3:
-      "From that foundation, the project is designed to scale into a feature film set in the same universe, expanding both the narrative scope and the value of the IP.",
-    projectText4:
-      "At the same time, Superchuches has a clear transmedia and commercial direction: its character and world design can support high-potential merchandising lines, from current products to future expansions such as plush toys, coloring books, toys and other child-focused formats.",
-    projectGrowthLabel: "Series · Film · Merchandising",
-    projectGrowthTitle: "From digital content to product universe",
-
-    growthKicker: "Projection",
-    growthTitle: "IP growth scenario",
-    growthViews: "views",
-    growthPhases: [
-      {
-        phase: "Phase 1",
-        title: "Validation",
-        metricType: "range",
-        start: 1,
-        end: 5,
-        progress: "30%",
-        text: "Short-form series launch to build audience and validate characters and tone.",
-        time: "0–6 months",
-        art: images.micro,
-      },
-      {
-        phase: "Phase 2",
-        title: "Scale-up",
-        metricType: "range",
-        start: 10,
-        end: 50,
-        progress: "65%",
-        text: "Continuous production, community growth and first merchandising tests.",
-        time: "6–18 months",
-        art: images.sketch4,
-      },
-      {
-        phase: "Phase 3",
-        title: "Expansion",
-        metricType: "text",
-        metric: "IP + Licensing",
-        progress: "100%",
-        text: "Feature film development and expansion into products: plush toys, coloring books and toys.",
-        time: "18–36 months",
-        art: images.sketch2,
-      },
-    ],
-    
-    synopsisKicker: "Synopsis",
-    synopsisTitle: "Creativity as a magical adventure",
-    synopsisHighlight:
+    whatKicker: "THE UNIVERSE",
+    whatTitle: "What are the SuperChuches?",
+    whatText:
       "Artistic inspirations are magical creatures hidden among us, helping each human discover their creative talent.",
-    synopsisText:
-      "One of them is Mega, a green Superchuche specialized in fantasy novels, who accompanies her human Luna —affectionately known as “la Esbirra”. Each episode follows new adventures where Mega, Giga and other beings such as Chuchicornios or Chachiyetis solve unexpected challenges.",
-    synopsisText2:
-      "All while facing a constant threat: fear, which tries to stop creativity and dim imagination. With humor, tenderness and fantasy, the series encourages children to trust their own creativity.",
-    synopsisHighlights: [
-      "Creativity",
-      "Humor",
-      "Tenderness",
-      "Fantasy",
+    whatText2:
+      "Luna can see them. For everyone else, they almost always go unnoticed.",
+
+    premise: [
+      "CREATIVITY",
+      "COMES TO LIFE",
+      "BUT FEAR ALSO EXISTS",
+      "AND IT WILL TRY TO PUT IT OUT",
     ],
 
-    seriesKicker: "Primary project",
-    seriesTitle: "Animated kids series for YouTube",
-    seriesLead:
-      "The series is the strongest entry point: agile format, efficient production and strong visual memorability.",
-    seriesLead2:
-      "Its structure makes it possible to build community, test characters and tone, and turn the universe into a property with real long-term potential from an early stage.",
+    charactersKicker: "MEET THE SUPERCHUCHES",
+    charactersTitle: "Every inspiration takes a different shape",
+    characterInspirationLabel: "Inspiration",
+    characterTraitsLabel: "Personality",
 
-    seriesBullets: [
-      "90 episodes of 20 seconds released weekly.",
-      "Target audience: children aged 4 to 7.",
-      "Format designed for YouTube and digital platforms.",
-      "Spanish and English audio.",
-      "Fun, optimistic, imaginative and highly visual tone.",
-      "Production pipeline designed for efficiency and scalability.",
-    ],
+    worldKicker: "THE SUPERCHUCHES WORLD",
+    worldTitle: "A universe hidden in plain sight",
+    worldText:
+      "The scene does not change. What changes is who can see what has always been there.",
+    lunaButton: "See as Luna",
+    normalButton: "Return to normal world",
+    compareHint: "Move the cursor to see as Luna",
 
-    filmKicker: "IP expansion",
-    filmTitle: "Feature film in the same universe",
-    filmLead:
-      "The film expands the universe, deepens the emotional layer and elevates the IP positioning while maintaining visual and narrative coherence.",
+    seriesFilmKicker: "NOW / NEXT",
+    seriesFilmTitle: "The series opens the door. The feature film expands the world",
+    now: "NOW",
+    series: "THE SERIES",
+    world: "THE WORLD",
+    tomorrow: "NEXT",
+    film: "THE FEATURE FILM",
+    seriesText:
+      "Short-form builds audience, validates tone and develops the relationship with the characters.",
+    filmText:
+      "The feature film takes the same universe to a larger emotional and cinematic scale.",
+    seriesMeta: ["Short-form", "YouTube", "ES / EN"],
+    filmMeta: ["Feature film", "Worldbuilding", "Expansion"],
+    seriesVisualLabel: "Meet the characters",
+    filmVisualLabel: "The universe grows",
 
-    filmBullets: [
-      "Same visual identity and narrative universe.",
-      "Greater emotional depth and worldbuilding.",
-      "More ambitious scale in characters and conflict.",
-      "Stronger strategic value for the IP.",
-    ],
+    galleryKicker: "GALLERY",
+    galleryTitle: "A world full of small details",
 
-    universeTitle: "A world with long-term potential",
-    universeText:
-      "Superchuches are born from imagination and linked to different creative disciplines. A system of families, colors and roles that creates a recognizable, flexible and expandable IP.",
-    universeText2:
-      "This approach makes it possible to introduce new creatures, new relationships and new stories without losing identity, opening the door to series, feature film and future universe expansion.",
-
-    productionKicker: "Production",
-    productionTitle: "Visual development and animation tests",
-    productionText:
-      "The project includes material to explore character design, production views, materials, color palettes and early motion tests.",
-
-    galleryTitle: "Visual universe",
-    galleryLabels: {
-      storyMoment: "Story moment",
-      emotionalCore: "Emotional core",
-      characterUniverse: "Character universe",
-      visualIdentity: "Visual identity",
-      mainCharacter: "Main character",
-      supportingCharacter: "Supporting character",
-      development: "Development",
-    },
-
-    strengthsTitle: "Project strengths",
-    strengths: [
+    industryKicker: "INDUSTRY INFORMATION",
+    industryTitle: "Information for industry professionals",
+    industryIntro:
+      "Format, strategy, expansion and collaboration routes for producers, distributors, platforms and potential partners.",
+    industrySections: [
       {
-        title: "Distinctive IP",
-        text: "An original universe with clear rules and highly recognizable creatures.",
+        title: "Format and audience",
+        body: "90 planned episodes · 20 seconds · target 4–7 · initial YouTube window · ES/EN audio.",
       },
       {
-        title: "Scalable model",
-        text: "The series enables a realistic start and meaningful growth.",
+        title: "Growth strategy",
+        body: "Short-form series as the entry point, community building, character and tone validation, followed by IP expansion.",
       },
       {
-        title: "Visual impact",
-        text: "Character design and art direction with strong brand potential.",
+        title: "Series → Feature Film",
+        body: "The series develops audience and universe; the feature film expands worldbuilding, emotion and positioning.",
       },
       {
-        title: "International outlook",
-        text: "Bilingual from the start to support pitching and partnerships.",
+        title: "Licensing, merchandising and dossier",
+        body: "SuperChuches is designed to expand into products, licensing and new extensions of the universe. The professional dossier is available upon request from Aguaviva Animation.",
       },
     ],
 
-    contactTitle: "Contact",
-    contactText:
-      "To request the dossier, discuss development or explore collaboration opportunities, feel free to reach out:",
-    contactCta: "Email Aguaviva Animation",
+    footerClaim: "Creativity comes to life.",
+    footerOriginal: "An original creation by Aguaviva Animation",
+    contact: "Contact",
   },
 };
 
-const galleryItems = [
+const loops = {
+  mega: "/videos/characters/mega-loop.webm",
+  giga: "/videos/characters/giga-loop.webm",
+  moustache: "/videos/characters/moustache-loop.webm",
+  mandarina: "/videos/characters/mandarina-loop.webm",
+  micro: "/videos/characters/micro-loop.webm",
+  pencil: "/videos/characters/pencil-loop.webm",
+  acuarela: "/videos/characters/acuarela-loop.webm",
+  sol: "/videos/characters/sol-loop.webm",
+  tcho: "/videos/characters/tcho-loop.webm",
+};
+
+const characterBase = [
   {
-    src: "/images/gallery/renders/gallery-bunny-render.png",
-    alt: "Personaje Superchuches naranja",
+    name: "Mega",
+    image: images.megaRoster,
+    loopSrc: loops.mega,
+    profile: {
+      es: { type: "Superchuche · Inspiración de literatura fantástica", traits: ["Curiosa", "Cariñosa", "Caótica"] },
+      en: { type: "Superchuche · Fantasy literature inspiration", traits: ["Curious", "Affectionate", "Chaotic"] },
+    },
   },
   {
-    src: "/images/gallery/renders/gallery-owl-render.png",
-    alt: "Personaje Superchuches búho",
+    name: "Giga",
+    image: images.giga,
+    loopSrc: loops.giga,
+    profile: {
+      es: { type: "Superchuche · Inspiración de literatura romántica", traits: ["Entusiasta", "Comprensivo", "Hablador"] },
+      en: { type: "Superchuche · Romance literature inspiration", traits: ["Enthusiastic", "Understanding", "Talkative"] },
+    },
   },
   {
-    src: "/images/gallery/renders/gallery-pistacho-render.png",
-    alt: "Personaje Superchuches anfibio",
+    name: "Moustache",
+    image: images.moustache,
+    loopSrc: loops.moustache,
+    profile: {
+      es: { type: "Chuchicornio · Inspiración de artes plásticas", traits: ["Protectora", "Empática", "Cabezota"] },
+      en: { type: "Chuchicornio · Visual arts inspiration", traits: ["Protective", "Empathetic", "Stubborn"] },
+    },
   },
   {
-    src: "/images/gallery/renders/gallery-pilot-render.png",
-    alt: "Personaje Superchuches piloto",
+    name: "Micro",
+    image: images.micro,
+    loopSrc: loops.micro,
+    profile: {
+      es: { type: "Superchuche · Inspiración de literatura de terror", traits: ["Adorable", "Juguetón", "Temerario"] },
+      en: { type: "Superchuche · Horror literature inspiration", traits: ["Adorable", "Playful", "Fearless"] },
+    },
   },
   {
-    src: "/images/gallery/renders/gallery-snake-render.png",
-    alt: "Personaje Superchuches piloto",
+    name: "Sol",
+    image: images.sol,
+    loopSrc: loops.sol,
+    profile: {
+      es: { type: "Chachiyeti · Inspiración de cantantes", traits: ["Tímido", "Encantador", "Leal"] },
+      en: { type: "Chachiyeti · Singers inspiration", traits: ["Shy", "Charming", "Loyal"] },
+    },
   },
   {
-    src: "/images/gallery/renders/gallery-vainilla-render.png",
-    alt: "Personaje Superchuches piloto",
+    name: "Pencil",
+    image: images.pencil,
+    loopSrc: loops.pencil,
+    profile: {
+      es: { type: "Chuchicornio · Inspiración de artes plásticas", traits: ["Observador", "Curioso", "Ingenioso"] },
+      en: { type: "Chuchicornio · Visual arts inspiration", traits: ["Observant", "Curious", "Inventive"] },
+    },
   },
   {
-    src: "/images/gallery/renders/gallery-moustache-render.png",
-    alt: "Personaje Superchuches piloto",
+    name: "Mandarina",
+    image: images.mandarina,
+    loopSrc: loops.mandarina,
+    profile: {
+      es: { type: "Cholote · Inspiración actoral", traits: ["Amigable", "Extrovertido", "Torpe"] },
+      en: { type: "Cholote · Acting inspiration", traits: ["Friendly", "Outgoing", "Clumsy"] },
+    },
+  },
+  {
+    name: "Acuarela",
+    image: images.chinchilla,
+    loopSrc: loops.acuarela,
+    profile: {
+      es: { type: "Chuchicornio · Inspiración artesanal", traits: ["Divertida", "Enérgica", "Asustadiza"] },
+      en: { type: "Chuchicornio · Craft inspiration", traits: ["Fun", "Energetic", "Easily scared"] },
+    },
+  },
+  {
+    name: "T-Cho",
+    image: images.tcho,
+    loopSrc: loops.tcho,
+    profile: {
+      es: { type: "Antiinspiración · Roba inspiraciones por medio del miedo", traits: ["Inteligente", "Malvado", "Egoísta"] },
+      en: { type: "Anti-inspiration · Steals inspiration through fear", traits: ["Intelligent", "Evil", "Selfish"] },
+    },
   },
 ];
 
-function ImageCard({ src, alt, className = "", contain = false, transparent = false }) {
+function SafeImage({ src, fallback, alt = "", className = "", ...props }) {
+  const [currentSrc, setCurrentSrc] = useState(src);
+
+  useEffect(() => {
+    setCurrentSrc(src);
+  }, [src]);
+
   return (
-    <div className={`image-card ${transparent ? "transparent-card" : ""} ${className}`}>
-      <img src={src} alt={alt} className={contain ? "contain" : ""} />
-    </div>
+    <img
+      src={currentSrc}
+      alt={alt}
+      className={className}
+      onError={() => {
+        if (fallback && currentSrc !== fallback) setCurrentSrc(fallback);
+      }}
+      {...props}
+    />
   );
 }
 
-function BulletList({ items }) {
-  return (
-    <ul className="bullet-list">
-      {items.map((item) => (
-        <li key={item}>{item}</li>
-      ))}
-    </ul>
-  );
+function CharacterMedia({ character }) {
+  const [videoFailed, setVideoFailed] = useState(false);
+
+  useEffect(() => {
+    setVideoFailed(false);
+  }, [character.name, character.loopSrc]);
+
+  if (character.loopSrc && !videoFailed) {
+    return (
+      <video
+        key={character.loopSrc}
+        className="character-media character-loop"
+        src={character.loopSrc}
+        autoPlay
+        loop
+        muted
+        playsInline
+        preload="auto"
+        disablePictureInPicture
+        aria-label={`${character.name} animation loop`}
+        onLoadedData={(event) => event.currentTarget.play().catch(() => {})}
+        onCanPlay={(event) => event.currentTarget.play().catch(() => {})}
+        onError={() => setVideoFailed(true)}
+      />
+    );
+  }
+
+  return <SafeImage className="character-media" src={character.image} alt={character.name} />;
 }
 
-function GallerySlider({ items, t }) {
-  const trackRef = useRef(null);
+function CharacterCarousel({ t, lang }) {
+  const [active, setActive] = useState(0);
+  const character = characterBase[active];
 
-  const scrollByAmount = (dir) => {
-    if (!trackRef.current) return;
-    const amount = trackRef.current.clientWidth * 0.8;
-    trackRef.current.scrollBy({ left: dir * amount, behavior: "smooth" });
+  const move = (dir) => {
+    setActive((prev) => (prev + dir + characterBase.length) % characterBase.length);
   };
 
   return (
-    <div className="gallery-shell">
-      <div className="gallery-controls">
-        <button className="gallery-btn" onClick={() => scrollByAmount(-1)}>
-          ←
-        </button>
-        <button className="gallery-btn" onClick={() => scrollByAmount(1)}>
-          →
-        </button>
-      </div>
-
-      <div className="gallery-track" ref={trackRef}>
-        {items.map((item, index) => (
-          <article
-            className={`gallery-slide ${item.featured ? "featured-slide" : ""}`}
-            key={`${item.src}-${index}`}
-          >
-            <ImageCard
-              src={item.src}
-              alt={item.alt}
-              contain
-              transparent
-              className="gallery-image character-gallery-image"
-            />
-          </article>
-        ))}
-      </div>
-    </div>
-  );
-}
-
-function SynopsisPitch({ t }) {
-  return (
-    <section className="synopsis-pitch">
-      <div className="synopsis-copy">
-        <div className="section-kicker pink-text">{t.synopsisKicker}</div>
-        <h2>{t.synopsisTitle}</h2>
-
-        <p className="synopsis-highlight">{t.synopsisHighlight}</p>
-        <p>{t.synopsisText}</p>
-        <p>{t.synopsisText2}</p>
-
-        <div className="synopsis-tags">
-          {t.synopsisHighlights.map((item) => (
-            <span key={item}>{item}</span>
-          ))}
+    <section id="personajes" className="character-section section-pad">
+      <div className="section-shell character-shell">
+        <div className="section-heading character-heading">
+          <div>
+            <div className="section-kicker">{t.charactersKicker}</div>
+            <h2>{t.charactersTitle}</h2>
+          </div>
+          <div className="character-count">
+            {String(active + 1).padStart(2, "0")} / {String(characterBase.length).padStart(2, "0")}
+          </div>
         </div>
-      </div>
 
-      <div className="synopsis-visual">
-        <img src={images.concept} alt={t.synopsisTitle} />
+        <div className="character-editorial">
+          <div className="character-copy">
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={character.name}
+                initial={{ opacity: 0, y: 14 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                transition={{ duration: 0.28 }}
+              >
+                <div className="character-name">{character.name}</div>
+
+                <div className="character-profile">
+                  <div className="character-profile-row">
+                    <span className="character-profile-label">{t.characterInspirationLabel}</span>
+                    <p className="character-type">{character.profile[lang].type}</p>
+                  </div>
+
+                  <div className="character-profile-row">
+                    <span className="character-profile-label">{t.characterTraitsLabel}</span>
+                    <div className="character-traits" aria-label={t.characterTraitsLabel}>
+                      {character.profile[lang].traits.map((trait) => (
+                        <span key={trait}>{trait}</span>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
+            </AnimatePresence>
+
+            <div className="character-nav">
+              <button type="button" onClick={() => move(-1)} aria-label="Anterior">←</button>
+              <button type="button" onClick={() => move(1)} aria-label="Siguiente">→</button>
+            </div>
+          </div>
+
+          <div className={`character-art character-art-${active % 5}`}>
+            <div className="character-blob" aria-hidden="true" />
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={character.name}
+                className="character-media-wrap"
+                initial={{ opacity: 0, x: 22, scale: 0.97 }}
+                animate={{ opacity: 1, x: 0, scale: 1 }}
+                exit={{ opacity: 0, x: -18, scale: 0.98 }}
+                transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+              >
+                <CharacterMedia character={character} />
+              </motion.div>
+            </AnimatePresence>
+          </div>
+        </div>
       </div>
     </section>
   );
 }
 
-function ProjectGrowthVisual({ t }) {
+function WorldReveal({ t }) {
+  const frameRef = useRef(null);
+  const [revealing, setRevealing] = useState(false);
+
+  const updateReveal = (event) => {
+    const frame = frameRef.current;
+    if (!frame) return;
+
+    const rect = frame.getBoundingClientRect();
+    const x = Math.max(0, Math.min(100, ((event.clientX - rect.left) / rect.width) * 100));
+    const y = Math.max(0, Math.min(100, ((event.clientY - rect.top) / rect.height) * 100));
+
+    frame.style.setProperty("--reveal-x", `${x}%`);
+    frame.style.setProperty("--reveal-y", `${y}%`);
+    setRevealing(true);
+  };
+
+  const hideReveal = (event) => {
+    if (!event || event.pointerType !== "touch") setRevealing(false);
+  };
+
   return (
-    <div className="growth-visual">
-      <div className="growth-main-photo">
-        <img src={images.merchDisplay} alt="Merchandising Superchuches" />
-      </div>
+    <section id="universo" className="world-section section-pad">
+      <div className="section-shell">
+        <div className="world-heading">
+          <div className="section-kicker light">{t.worldKicker}</div>
+          <h2>{t.worldTitle}</h2>
+          <p>{t.worldText}</p>
+        </div>
 
-      <div className="growth-render growth-render-a">
-        <img src={images.chuchicornio3d} alt="Chuchicornio 3D" />
-      </div>
+        <div
+          ref={frameRef}
+          className={`world-frame world-hover-reveal ${revealing ? "is-revealing" : ""}`}
+          onPointerEnter={updateReveal}
+          onPointerMove={updateReveal}
+          onPointerLeave={hideReveal}
+          onPointerDown={updateReveal}
+          onPointerUp={(event) => {
+            if (event.pointerType === "touch") setRevealing(false);
+          }}
+        >
+          <SafeImage
+            src={images.parkNormal}
+            fallback="/images/comparison.png"
+            alt="Parque del Molino"
+            className="world-image world-normal"
+          />
 
-      <div className="growth-render growth-render-mega">
-        <img src={images.mega3d} alt="Mega 3D" />
-      </div>
+          <div className="world-magic-reveal" aria-hidden={!revealing}>
+            <SafeImage
+              src={images.parkLuna}
+              fallback="/images/comparison.png"
+              alt="Parque del Molino visto por Luna"
+              className="world-image world-magic"
+            />
+          </div>
 
-      <div className="growth-render growth-render-b">
-        <img src={images.chachiyeti3d} alt="Chachiyeti 3D" />
+          <div className="world-reveal-ring" aria-hidden="true" />
+          <div className="world-reveal-hint">
+            <span>✦</span> {t.compareHint}
+          </div>
+        </div>
       </div>
-
-      <div className="growth-inset-photo">
-        <img src={images.merchSoftToys} alt="Peluches y merchandising" />
-      </div>
-
-      <div className="growth-caption">
-        <span>{t.projectGrowthLabel}</span>
-        <strong>{t.projectGrowthTitle}</strong>
-      </div>
-    </div>
+    </section>
   );
 }
 
-function AnimatedCounter({ end, suffix = "" }) {
-  const [value, setValue] = useState(0);
-
-  useEffect(() => {
-    let start = 0;
-    const duration = 1200;
-    const startTime = performance.now();
-
-    const animate = (currentTime) => {
-      const progress = Math.min((currentTime - startTime) / duration, 1);
-      const eased = 1 - Math.pow(1 - progress, 3);
-      const nextValue = Math.round(start + (end - start) * eased);
-
-      setValue(nextValue);
-
-      if (progress < 1) requestAnimationFrame(animate);
-    };
-
-    requestAnimationFrame(animate);
-  }, [end]);
+function TeaserSection({ t }) {
+  const [playing, setPlaying] = useState(false);
 
   return (
-    <>
-      {value}
-      {suffix}
-    </>
+    <section id="teaser" className="teaser-section section-pad">
+      <div className="teaser-ambient" aria-hidden="true">
+        <SafeImage src={images.teaserThumb} fallback={images.heroFallback} alt="" />
+      </div>
+
+      <div className="section-shell teaser-shell">
+        <div className="teaser-copy">
+          <div className="section-kicker light">{t.teaserKicker}</div>
+          <h2>{t.teaserTitle}</h2>
+        </div>
+
+        <div className="teaser-card">
+          {playing ? (
+            <iframe
+              src={`${YOUTUBE_EMBED}?autoplay=1&rel=0`}
+              title="SuperChuches Official Teaser"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowFullScreen
+            />
+          ) : (
+            <button type="button" className="teaser-poster" onClick={() => setPlaying(true)}>
+              <SafeImage src={images.teaserThumb} fallback={images.heroFallback} alt="SuperChuches teaser" />
+              <span className="teaser-play" aria-hidden="true">▶</span>
+              <span className="sr-only">{t.teaserPlay}</span>
+            </button>
+          )}
+        </div>
+
+        <div className="teaser-meta-row">
+          <span>{t.teaserMeta}</span>
+          <a href={YOUTUBE_CHANNEL} target="_blank" rel="noreferrer">YouTube ↗</a>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function Gallery({ t }) {
+  return (
+    <section id="galeria" className="gallery-editorial section-pad">
+      <div className="section-shell">
+        <div className="section-heading">
+          <div className="section-kicker">{t.galleryKicker}</div>
+          <h2>{t.galleryTitle}</h2>
+        </div>
+
+        <div className="masonry-gallery">
+          {images.gallery.map((src, index) => (
+            <a className={`masonry-item item-${index % 5}`} href={src} target="_blank" rel="noreferrer" key={src}>
+              <SafeImage src={src} alt={`SuperChuches ${index + 1}`} />
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function IndustrySection({ t }) {
+  return (
+    <section id="industria" className="industry-section section-pad">
+      <div className="section-shell industry-shell">
+        <div className="industry-intro">
+          <div className="section-kicker">{t.industryKicker}</div>
+          <h2>{t.industryTitle}</h2>
+          <p>{t.industryIntro}</p>
+        </div>
+
+        <div className="industry-accordion">
+          {t.industrySections.map((item, index) => (
+            <details key={item.title} open={index === 0}>
+              <summary>
+                <span>{String(index + 1).padStart(2, "0")}</span>
+                {item.title}
+              </summary>
+              <p>{item.body}</p>
+            </details>
+          ))}
+        </div>
+      </div>
+    </section>
   );
 }
 
 export default function App() {
   const [lang, setLang] = useState("es");
-  const t = useMemo(() => copy[lang], [lang]);
   const [showIntro, setShowIntro] = useState(true);
+  const [headerSolid, setHeaderSolid] = useState(false);
+  const t = useMemo(() => copy[lang], [lang]);
+
+  useEffect(() => {
+    const reduced = window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches;
+    const timeout = window.setTimeout(() => setShowIntro(false), reduced ? 150 : 950);
+    return () => window.clearTimeout(timeout);
+  }, []);
+
+  useEffect(() => {
+    const onScroll = () => setHeaderSolid(window.scrollY > 48);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   return (
-    <div className="page-shell">
+    <div className="sc-site">
       <AnimatePresence>
         {showIntro && (
           <motion.div
-            className="intro-cover"
+            className="brand-intro"
             initial={{ opacity: 1 }}
-            animate={{ opacity: 1 }}
-            exit={{
-              opacity: 0,
-              scale: 1.04,
-              filter: "blur(18px)",
-            }}
-            transition={{ duration: 0.85, ease: [0.22, 1, 0.36, 1] }}
+            exit={{ opacity: 0, filter: "blur(10px)", scale: 1.02 }}
+            transition={{ duration: 0.45 }}
           >
-            
-            <div className="lang-switch intro-lang-switch">
-              <button className={lang === "es" ? "active" : ""} onClick={() => setLang("es")}>
-                ES
-              </button>
-              <button className={lang === "en" ? "active" : ""} onClick={() => setLang("en")}>
-                EN
-              </button>
-            </div>
-
-            <motion.div
-              className="intro-cover-content"
-              initial={{ opacity: 0, y: 20, scale: 0.96 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              exit={{ opacity: 0, y: -18, scale: 0.96 }}
-              transition={{ duration: 0.7, ease: "easeOut" }}
-            >
-
-              <img src={images.introChuchicornio} alt="Chuchicornio" />
-
-              <div className="intro-cover-text">
-                <span>{t.introTitle}</span>
-                <h1>{t.introSubtitle}</h1>
-                <button type="button" onClick={() => setShowIntro(false)}>
-                  {t.introButton}
-                </button>
-              </div>
-            </motion.div>
+            <div className="intro-spark">✦</div>
+            <SafeImage src={images.logo} alt="SuperChuches" className="intro-logo" />
           </motion.div>
         )}
       </AnimatePresence>
 
-      <div className="bg-orb orb-a" />
-      <div className="bg-orb orb-b" />
-      <div className="bg-orb orb-c" />
+      <header className={`site-header ${headerSolid ? "solid" : ""}`}>
+        <a className="brand-link" href="#top" aria-label="SuperChuches">
+          <SafeImage src={images.logo} alt="SuperChuches" className="brand-logo" />
+        </a>
 
-      <header className="site-header">
-        <div className="brand">
-          <img
-            src={images.logo}
-            alt="Superchuches"
-            className="brand-logo"
-          />
-        </div>
-
-        <nav className="nav">
-          <a href="#proyecto">{t.nav[0]}</a>
-          <a href="#serie">{t.nav[1]}</a>
-          <a href="#peli">{t.nav[2]}</a>
-          <a href="#galeria">{t.nav[3]}</a>
-          <a href="#contacto">{t.nav[4]}</a>
+        <nav className="site-nav" aria-label="Principal">
+          <a href="#descubrir">{t.nav[0]}</a>
+          <a href="#personajes">{t.nav[1]}</a>
+          <a href="#universo">{t.nav[2]}</a>
+          <a href="#serie-film">{t.nav[3]}</a>
+          <a href="#industria">{t.nav[4]}</a>
         </nav>
 
         <div className="lang-switch">
-          <button className={lang === "es" ? "active" : ""} onClick={() => setLang("es")}>
-            ES
-          </button>
-          <button className={lang === "en" ? "active" : ""} onClick={() => setLang("en")}>
-            EN
-          </button>
+          <button className={lang === "es" ? "active" : ""} onClick={() => setLang("es")}>ES</button>
+          <button className={lang === "en" ? "active" : ""} onClick={() => setLang("en")}>EN</button>
         </div>
       </header>
 
-      <main className="container">
-        <section className="hero-premium">
-
-          <div className="hero-copy premium-copy">
-            <div className="badges">
-              <span className="badge">{t.heroEyebrow}</span>
-              <span className="badge pink">{t.floatingTagA}</span>
-              <span className="badge green">{t.floatingTagB}</span>
-            </div>
-
-            <h1 className="hero-logo-heading">
-              <span className="sr-only">{t.heroTitle}</span>
-              <img
-                src={images.logo}
-                alt=""
-                aria-hidden="true"
-                className="hero-logo"
-              />
-            </h1>
-            <p className="lead">{t.heroSubtitle}</p>
-            <p className="sublead">{t.heroSupporting}</p>
-
-            <div className="cta-row">
-              <a className="button primary" href="#serie">
-                {t.ctaPrimary}
-              </a>
-              <a className="button secondary" href="#proyecto">
-                {t.ctaSecondary}
-              </a>
-            </div>
-
-            <div className="metrics">
-              {t.metrics.map((metric) => (
-                <div className="metric-card" key={metric.label}>
-                  <div className="metric-value">{metric.value}</div>
-                  <div className="metric-label">{metric.label}</div>
-                </div>
-              ))}
-            </div>
-            
-            <div className="hero-top-concepts">
-              {[images.sketch3, images.sketch1, images.sketch4].map(
-                (src, i) => (
-                  <motion.div
-                    className={`top-concept top-concept-${i + 1}`}
-                    key={src}
-                    initial={{ opacity: 0, y: 18, scale: 0.9 }}
-                    animate={{
-                      opacity: 1,
-                      y: [4, -2, 4],
-                      scale: 1,
-                    }}
-                    transition={{
-                      opacity: { duration: 0.6, delay: 0.1 * i },
-                      scale: { duration: 0.6, delay: 0.1 * i },
-                      y: {
-                        duration: 4 + i * 0.35,
-                        delay: 0.1 * i,
-                        repeat: Infinity,
-                        repeatType: "mirror",
-                        ease: "easeInOut",
-                      },
-                    }}
-                  >
-                    <img src={src} alt={`Concept ${i + 1}`} />
-                  </motion.div>
-                )
-              )}
-            </div>
+      <main id="top">
+        <section className="hero-v15">
+          <div className="hero-image-wrap">
+            <SafeImage
+              src={images.heroFinal}
+              fallback={images.heroFallback}
+              alt="Luna y Mega"
+              className="hero-main-image"
+            />
+            <div className="hero-shade" />
           </div>
 
-          <motion.div
-            className="hero-stage"
-            initial={{ opacity: 0, y: 18 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-          >
+          <div className="hero-content section-shell">
+            <motion.div
+              className="hero-copy"
+              initial={{ opacity: 0, y: 18 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.35, duration: 0.7 }}
+            >
+              <div className="hero-overline">{t.heroOverline}</div>
+              <SafeImage src={images.logo} alt="" aria-hidden="true" className="hero-logo" />
+              <h1>{t.heroTitle}</h1>
+              <p className="hero-subtitle">{t.heroSubtitle}</p>
 
-            <div className="hero-characters">
-              <div className="floating-card left-card">
-                <img src={images.micro} alt="Micro" className="transparent-hero-img" />
+              <div className="hero-actions">
+                <a href="#teaser" className="button button-primary">▶ {t.heroPrimary}</a>
+                <a href="#descubrir" className="button button-ghost">{t.heroSecondary} ↓</a>
               </div>
 
-              <div className="floating-card center-card">
-                <img src={images.gigaBaby} alt="Giga" className="transparent-hero-img giga-main" />
+              <div className="hero-meta">
+                <span>{t.heroMeta}</span>
+                <a href={YOUTUBE_CHANNEL} target="_blank" rel="noreferrer">{t.heroYoutube} ↗</a>
               </div>
-
-              <div className="floating-card right-card">
-                <img src={images.moustache} alt="Moustache" className="transparent-hero-img" />
-              </div>
-            </div>
-
-            <div className="covers-row single-cover-row">
-              <ImageCard
-                src={images.lunaCompo}
-                alt="Luna, Mega and Giga"
-                className="cover-card cover-card-large"
-                contain
-                transparent
-              />
-            </div>
-          </motion.div>
-        </section>
-
-        <section id="proyecto" className="editorial-intro">
-          <div className="intro-panel">
-            <div className="section-kicker">
-              {lang === "es" ? "Proyecto" : "Project"}
-            </div>
-
-            <h2>{t.projectTitle}</h2>
-
-            <div className="project-strategy-text">
-              <p>{t.projectText}</p>
-              <p>{t.projectText2}</p>
-              <p>{t.projectText3}</p>
-              <p className="project-commercial-highlight">{t.projectText4}</p>
-            </div>
-          </div>
-
-          <div className="intro-visual growth-visual-wrap">
-            <ProjectGrowthVisual t={t} />
+            </motion.div>
           </div>
         </section>
 
-        <section className="growth-stats">
-          <div className="section-kicker">{t.growthKicker}</div>
-          <h2>{t.growthTitle}</h2>
+        <section id="descubrir" className="magic-whisper section-pad">
+          <div className="section-shell whisper-inner">
+            <span className="magic-dot dot-1" aria-hidden="true">✦</span>
+            <span className="magic-dot dot-2" aria-hidden="true">·</span>
+            <span className="magic-dot dot-3" aria-hidden="true">✦</span>
+            <p>{t.whisperA}</p>
+            <h2>{t.whisperB}</h2>
+          </div>
+        </section>
 
-          <div className="growth-stats-grid">
-            {t.growthPhases.map((phase) => (
-              <div className="growth-phase" key={phase.title}>
-                <img src={phase.art} alt="" className="phase-bg-art" />
+        <TeaserSection t={t} />
 
-                <span className="phase-tag">{phase.phase}</span>
-                <h3>{phase.title}</h3>
+        <section className="what-section section-pad">
+          <div className="section-shell what-grid">
+            <div className="what-copy">
+              <div className="section-kicker">{t.whatKicker}</div>
+              <h2>{t.whatTitle}</h2>
+              <p>{t.whatText}</p>
+              <p>{t.whatText2}</p>
+            </div>
 
-                <div className="phase-metric">
-                  {phase.metricType === "range" ? (
-                    <>
-                      <AnimatedCounter end={phase.start} suffix="M" /> –{" "}
-                      <AnimatedCounter end={phase.end} suffix="M" />
-                      <span>{t.growthViews}</span>
-                    </>
-                  ) : (
-                    phase.metric
-                  )}
+            <div className="mega-breakout">
+              <div className="mega-glow" />
+              <SafeImage src={images.megaPeeking} fallback={images.megaRoster} alt="Mega" />
+            </div>
+          </div>
+        </section>
+
+        <section className="premise-editorial">
+          {t.premise.map((line, index) => (
+            <div className={`premise-step premise-${index}`} key={line}>
+              <motion.div
+                className="section-shell"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.55 }}
+                transition={{ duration: 0.65 }}
+              >
+                <span>{line}</span>
+              </motion.div>
+            </div>
+          ))}
+        </section>
+
+        <CharacterCarousel t={t} lang={lang} />
+        <WorldReveal t={t} />
+
+        <section id="serie-film" className="series-film section-pad">
+          <div className="section-shell">
+            <div className="series-film-heading">
+              <div className="section-kicker">{t.seriesFilmKicker}</div>
+              <h2>{t.seriesFilmTitle}</h2>
+            </div>
+
+            <div className="growth-timeline">
+              <article className="timeline-card series-card">
+                <div className="timeline-card-copy">
+                  <span className="timeline-time">{t.now}</span>
+                  <h3>{t.series}</h3>
+                  <p>{t.seriesText}</p>
+                  <div className="timeline-meta">
+                    {t.seriesMeta.map((item) => <span key={item}>{item}</span>)}
+                  </div>
                 </div>
 
-                <div className="phase-progress">
-                  <div
-                    className="phase-progress-bar"
-                    style={{ "--progress": phase.progress }}
-                  />
+                <div className="series-visual" aria-label={t.seriesVisualLabel}>
+                  <div className="series-orbit" aria-hidden="true" />
+                  <SafeImage src={images.luna} alt="Luna" className="series-person series-luna" />
+                  <SafeImage src={images.giga} alt="Giga" className="series-person series-giga" />
+                  <span className="timeline-visual-label">{t.seriesVisualLabel}</span>
+                </div>
+              </article>
+
+              <div className="timeline-spine" aria-hidden="true">
+                <i />
+                <span>{t.world}</span>
+                <i />
+              </div>
+
+              <article className="timeline-card film-card">
+                <div className="timeline-card-copy">
+                  <span className="timeline-time">{t.tomorrow}</span>
+                  <h3>{t.film}</h3>
+                  <p>{t.filmText}</p>
+                  <div className="timeline-meta timeline-meta-dark">
+                    {t.filmMeta.map((item) => <span key={item}>{item}</span>)}
+                  </div>
                 </div>
 
-                <p className="phase-desc">{phase.text}</p>
-                <span className="phase-time">{phase.time}</span>
-              </div>
-            ))}
-          </div>
-        </section>
-
-        <SynopsisPitch t={t} />
-
-        <section id="serie" className="project-block project-series premium-section">
-          <div className="project-grid">
-            <div className="project-copy">
-              <div className="section-kicker green-text">{t.seriesKicker}</div>
-              <h2>{t.seriesTitle}</h2>
-              <p className="project-lead">{t.seriesLead}</p>
-              <p className="project-lead secondary-lead">{t.seriesLead2}</p>
-              <BulletList items={t.seriesBullets} />
-            </div>
-
-            <div className="project-visuals premium-visuals">
-              <ImageCard src={images.luna} alt="Luna" contain transparent />
-              <ImageCard src={images.chachiyeti} alt="Chachiyeti" contain transparent />
-              <ImageCard src={images.giga} alt="Giga bebé" contain transparent />
-              <ImageCard src={images.micro} alt="Micro" contain transparent />
+                <div className="film-image">
+                  <SafeImage src={images.parkLuna} fallback={images.hero1} alt="Mundo SuperChuches" />
+                  <div className="film-image-shade" aria-hidden="true" />
+                  <span className="timeline-visual-label film-visual-label">{t.filmVisualLabel}</span>
+                </div>
+              </article>
             </div>
           </div>
         </section>
 
-        <section id="peli" className="project-block project-film premium-section">
-          <div className="project-grid reverse-grid">
-            <div className="project-visuals movie-visuals">
-              <ImageCard src={images.hero1} alt="Novela 1" />
-              <ImageCard src={images.hero2} alt="Novela 2" />
-            </div>
-
-            <div className="project-copy">
-              <div className="section-kicker pink-text">{t.filmKicker}</div>
-              <h2>{t.filmTitle}</h2>
-              <p className="project-lead">{t.filmLead}</p>
-              <BulletList items={t.filmBullets} />
-            </div>
-          </div>
-        </section>
-
-        <section className="split-section universe-premium">
-          <div className="panel dark big-panel">
-            <div className="section-kicker">{t.sectionKickers.universe}</div>
-            <h2>{t.universeTitle}</h2>
-            <p>{t.universeText}</p>
-            <p>{t.universeText2}</p>
-          </div>
-
-          <ImageCard src={images.characterSheet} alt="Character sheet" className="sheet-card" />
-        </section>
-
-        <section className="production-section">
-          <div className="section-heading">
-            <div className="section-kicker">{t.productionKicker}</div>
-            <h2>{t.productionTitle}</h2>
-            <p>{t.productionText}</p>
-          </div>
-
-          <div className="production-grid">
-            <div className="production-card production-card-sheet">
-              <img src={images.choloteModelSheet} alt="Cholote model sheet" />
-            </div>
-
-            <div className="production-card production-card-video">
-              <video
-                src={images.animationTest}
-                autoPlay
-                loop
-                muted
-                playsInline
-                preload="metadata"
-              />
-            </div>
-          </div>
-        </section>
-
-        <section id="galeria" className="gallery-section">
-          <div className="section-heading with-copy">
-            <div>
-              <div className="section-kicker">{t.sectionKickers.gallery}</div>
-              <h2>{t.galleryTitle}</h2>
-            </div>
-          </div>
-
-          <GallerySlider items={galleryItems} t={t} />
-        </section>
-
-        <section className="strengths-section">
-          <div className="section-heading">
-            <div className="section-kicker">{t.sectionKickers.highlights}</div>
-            <h2>{t.strengthsTitle}</h2>
-          </div>
-
-          <div className="pillar-grid">
-            {t.strengths.map((pillar) => (
-              <div className="pillar-card" key={pillar.title}>
-                <div className="pillar-icon">✦</div>
-                <h3>{pillar.title}</h3>
-                <p>{pillar.text}</p>
-              </div>
-            ))}
-          </div>
-        </section>
-
-        <section id="contacto" className="contact-section">
-          <div className="contact-card">
-            <div>
-              <div className="section-kicker">{t.sectionKickers.contact}</div>
-              <h2>{t.contactTitle}</h2>
-              <p>{t.contactText}</p>
-            </div>
-
-            <a className="contact-link" href="mailto:info@aguavivaanimation.com">
-              {t.contactCta}
-              <span>info@aguavivaanimation.com</span>
-            </a>
-          </div>
-        </section>
+        <Gallery t={t} />
+        <IndustrySection t={t} />
       </main>
+
+      <footer className="site-footer">
+        <div className="section-shell footer-inner">
+          <div>
+            <SafeImage src={images.logo} alt="SuperChuches" className="footer-logo" />
+            <p className="footer-claim">{t.footerClaim}</p>
+          </div>
+
+          <div className="footer-links">
+            <a href={YOUTUBE_CHANNEL} target="_blank" rel="noreferrer">YouTube · SuperChuches ↗</a>
+            <a href={TIKTOK_SUPERCHUCHES} target="_blank" rel="noreferrer">TikTok · SuperChuches ↗</a>
+            <a href={INSTAGRAM_AGUAVIVA} target="_blank" rel="noreferrer">Instagram · Aguaviva ↗</a>
+            <a href="https://aguavivaanimation.com" target="_blank" rel="noreferrer">Aguaviva Animation ↗</a>
+            <div className="footer-contact">
+              <span>{t.contact}</span>
+              <a href="mailto:info@aguavivaanimation.com">info@aguavivaanimation.com</a>
+            </div>
+          </div>
+
+          <div className="footer-original">{t.footerOriginal}</div>
+        </div>
+      </footer>
     </div>
   );
 }
