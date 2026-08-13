@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
+import { Analytics } from "@vercel/analytics/react";
 
 /*
   SUPERCHUCHES WEB v1.5
@@ -856,6 +857,8 @@ export default function App() {
           <div className="footer-original">{t.footerOriginal}</div>
         </div>
       </footer>
+
+      <Analytics />
     </div>
   );
 }
