@@ -75,7 +75,7 @@ const images = {
 
 const YOUTUBE_CHANNEL = "https://www.youtube.com/@SuperChuches";
 const YOUTUBE_EMBED = "https://www.youtube-nocookie.com/embed/pY-mcjJnJcY";
-const INSTAGRAM_AGUAVIVA = "https://www.instagram.com/aguavivaanim";
+const INSTAGRAM_SUPERCHUCHES = "https://www.instagram.com/superchuchesanim?igsi=MWpwdWlkcHFucWwyMg==";
 const TIKTOK_SUPERCHUCHES = "https://www.tiktok.com/@superchuchesanim";
 
 const copy = {
@@ -167,6 +167,7 @@ const copy = {
     ],
 
     footerClaim: "La creatividad cobra vida.",
+    socialCta: "¿Quieres conocer más sobre las SuperChuches? Síguenos en redes sociales.",
     footerOriginal: "Una creación original de Aguaviva Animation",
     contact: "Contacto",
   },
@@ -258,6 +259,7 @@ const copy = {
     ],
 
     footerClaim: "Creativity comes to life.",
+    socialCta: "Want to discover more about the SuperChuches? Follow us on social media.",
     footerOriginal: "An original creation by Aguaviva Animation",
     contact: "Contact",
   },
@@ -844,9 +846,10 @@ export default function App() {
           </div>
 
           <div className="footer-links">
+            <p className="footer-social-cta">{t.socialCta}</p>
             <a href={YOUTUBE_CHANNEL} target="_blank" rel="noreferrer">YouTube · SuperChuches ↗</a>
             <a href={TIKTOK_SUPERCHUCHES} target="_blank" rel="noreferrer">TikTok · SuperChuches ↗</a>
-            <a href={INSTAGRAM_AGUAVIVA} target="_blank" rel="noreferrer">Instagram · Aguaviva ↗</a>
+            <a href={INSTAGRAM_SUPERCHUCHES} target="_blank" rel="noreferrer">Instagram · SuperChuches ↗</a>
             <a href="https://aguavivaanimation.com" target="_blank" rel="noreferrer">Aguaviva Animation ↗</a>
             <div className="footer-contact">
               <span>{t.contact}</span>
