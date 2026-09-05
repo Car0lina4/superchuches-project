@@ -77,6 +77,8 @@ const YOUTUBE_CHANNEL = "https://www.youtube.com/@SuperChuches";
 const YOUTUBE_EMBED = "https://www.youtube-nocookie.com/embed/pY-mcjJnJcY";
 const INSTAGRAM_SUPERCHUCHES = "https://www.instagram.com/superchuchesanim?igsi=MWpwdWlkcHFucWwyMg==";
 const TIKTOK_SUPERCHUCHES = "https://www.tiktok.com/@superchuchesanim";
+const KICKSTARTER_URL =
+  "https://www.kickstarter.com/projects/aguavivaanimation/superchuches-inspire?utm_source=superchuches_website&utm_medium=referral&utm_campaign=superchuches_inspire";
 
 const copy = {
   es: {
@@ -86,6 +88,9 @@ const copy = {
     heroSubtitle: "La creatividad cobra vida",
     heroPrimary: "Ver teaser",
     heroSecondary: "Descubrir",
+    kickstarterShort: "Apóyanos",
+    kickstarterCta: "Apoya el proyecto",
+    kickstarterMeta: "Campaña en Kickstarter",
     heroMeta: "Serie · Film · Universo transmedia",
     heroYoutube: "Disponible en YouTube",
 
@@ -168,6 +173,7 @@ const copy = {
 
     footerClaim: "La creatividad cobra vida.",
     socialCta: "¿Quieres conocer más sobre las SuperChuches? Síguenos en redes sociales.",
+    kickstarterFooter: "Apoya SuperChuches en Kickstarter",
     footerOriginal: "Una creación original de Aguaviva Animation",
     contact: "Contacto",
   },
@@ -178,6 +184,9 @@ const copy = {
     heroSubtitle: "Creativity comes to life",
     heroPrimary: "Watch teaser",
     heroSecondary: "Discover",
+    kickstarterShort: "Support us",
+    kickstarterCta: "Support the project",
+    kickstarterMeta: "Live on Kickstarter",
     heroMeta: "Series · Film · Transmedia universe",
     heroYoutube: "Available on YouTube",
 
@@ -260,6 +269,7 @@ const copy = {
 
     footerClaim: "Creativity comes to life.",
     socialCta: "Want to discover more about the SuperChuches? Follow us on social media.",
+    kickstarterFooter: "Support SuperChuches on Kickstarter",
     footerOriginal: "An original creation by Aguaviva Animation",
     contact: "Contact",
   },
@@ -692,9 +702,20 @@ export default function App() {
           <a href="#industria">{t.nav[4]}</a>
         </nav>
 
-        <div className="lang-switch">
-          <button className={lang === "es" ? "active" : ""} onClick={() => setLang("es")}>ES</button>
-          <button className={lang === "en" ? "active" : ""} onClick={() => setLang("en")}>EN</button>
+        <div className="header-actions">
+          <a
+            className="header-kickstarter"
+            href={KICKSTARTER_URL}
+            target="_blank"
+            rel="noreferrer"
+            aria-label={t.kickstarterFooter}
+          >
+            <span aria-hidden="true">✦</span> {t.kickstarterShort}
+          </a>
+          <div className="lang-switch">
+            <button className={lang === "es" ? "active" : ""} onClick={() => setLang("es")}>ES</button>
+            <button className={lang === "en" ? "active" : ""} onClick={() => setLang("en")}>EN</button>
+          </div>
         </div>
       </header>
 
@@ -723,12 +744,22 @@ export default function App() {
               <p className="hero-subtitle">{t.heroSubtitle}</p>
 
               <div className="hero-actions">
-                <a href="#teaser" className="button button-primary">▶ {t.heroPrimary}</a>
-                <a href="#descubrir" className="button button-ghost">{t.heroSecondary} ↓</a>
+                <a
+                  href={KICKSTARTER_URL}
+                  className="button button-kickstarter"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  {t.kickstarterCta} ↗
+                </a>
+                <a href="#teaser" className="button button-ghost">▶ {t.heroPrimary}</a>
               </div>
 
               <div className="hero-meta">
                 <span>{t.heroMeta}</span>
+                <a className="hero-campaign-link" href={KICKSTARTER_URL} target="_blank" rel="noreferrer">
+                  <span aria-hidden="true">●</span> {t.kickstarterMeta} ↗
+                </a>
                 <a href={YOUTUBE_CHANNEL} target="_blank" rel="noreferrer">{t.heroYoutube} ↗</a>
               </div>
             </motion.div>
@@ -847,6 +878,9 @@ export default function App() {
 
           <div className="footer-links">
             <p className="footer-social-cta">{t.socialCta}</p>
+            <a className="footer-kickstarter" href={KICKSTARTER_URL} target="_blank" rel="noreferrer">
+              {t.kickstarterFooter} ↗
+            </a>
             <a href={YOUTUBE_CHANNEL} target="_blank" rel="noreferrer">YouTube · SuperChuches ↗</a>
             <a href={TIKTOK_SUPERCHUCHES} target="_blank" rel="noreferrer">TikTok · SuperChuches ↗</a>
             <a href={INSTAGRAM_SUPERCHUCHES} target="_blank" rel="noreferrer">Instagram · SuperChuches ↗</a>

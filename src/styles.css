@@ -106,7 +106,11 @@ a { color: inherit; }
 .site-nav { display: flex; gap: 1.25rem; align-items: center; }
 .site-nav a { text-decoration: none; font-size: .88rem; font-weight: 700; opacity: .8; transition: opacity .2s ease; }
 .site-nav a:hover { opacity: 1; }
-.lang-switch { justify-self: end; display: flex; gap: .25rem; padding: .25rem; border-radius: 999px; border: 1px solid currentColor; border-color: rgba(255,255,255,.2); }
+.header-actions { justify-self: end; display: flex; align-items: center; gap: .65rem; }
+.header-kickstarter { display: inline-flex; align-items: center; gap: .4rem; min-height: 38px; padding: .55rem .85rem; border-radius: 999px; background: #05ce78; color: #13251d; text-decoration: none; font-size: .76rem; font-weight: 900; box-shadow: 0 8px 22px rgba(0,0,0,.12); transition: transform .25s ease, background .25s ease; }
+.header-kickstarter:hover { transform: translateY(-1px); background: #16e18b; }
+.header-kickstarter span { color: #13251d; }
+.lang-switch { display: flex; gap: .25rem; padding: .25rem; border-radius: 999px; border: 1px solid currentColor; border-color: rgba(255,255,255,.2); }
 .site-header.solid .lang-switch { border-color: rgba(33,23,36,.12); }
 .lang-switch button { border: 0; background: transparent; color: inherit; padding: .45rem .65rem; border-radius: 999px; cursor: pointer; font-size: .75rem; font-weight: 800; }
 .lang-switch button.active { background: currentColor; color: var(--plum); }
@@ -133,9 +137,13 @@ a { color: inherit; }
 .button { display: inline-flex; align-items: center; justify-content: center; padding: .95rem 1.2rem; border-radius: 999px; text-decoration: none; font-weight: 800; transition: transform .35s ease, background .35s ease, color .35s ease; }
 .button:hover { transform: translateY(-2px); }
 .button-primary { background: var(--warm-white); color: var(--plum); }
+.button-kickstarter { background: #05ce78; color: #13251d; box-shadow: 0 16px 36px rgba(0,0,0,.2); }
+.button-kickstarter:hover { background: #16e18b; }
 .button-ghost { border: 1px solid rgba(255,255,255,.32); color: var(--warm-white); background: rgba(255,255,255,.06); backdrop-filter: blur(10px); }
 .hero-meta { margin-top: 2rem; display: flex; flex-wrap: wrap; gap: .8rem 1.6rem; font-size: .83rem; color: rgba(255,253,248,.64); }
 .hero-meta a { text-decoration: none; color: var(--warm-white); }
+.hero-campaign-link { display: inline-flex; align-items: center; gap: .42rem; }
+.hero-campaign-link span { color: #05ce78; font-size: .62rem; filter: drop-shadow(0 0 5px rgba(5,206,120,.55)); }
 
 /* PRIMERA ANOMALÍA */
 .magic-whisper { position: relative; background: var(--cream); }
@@ -484,6 +492,7 @@ video.character-media { display: block; background: transparent; pointer-events:
 .footer-social-cta { margin: 0 0 .35rem; max-width: 34ch; color: var(--warm-white); font-weight: 700; line-height: 1.5; }
 .footer-links a { width: fit-content; text-decoration: none; color: rgba(255,253,248,.72); transition: color .2s ease, transform .2s ease; }
 .footer-links a:hover { color: var(--warm-white); transform: translateX(3px); }
+.footer-links .footer-kickstarter { color: #52eaa6; font-weight: 850; }
 .footer-contact { display: grid; gap: .15rem; margin-top: .25rem; }
 .footer-contact > span { color: rgba(255,253,248,.5); font-size: .72rem; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; }
 .footer-contact > a { width: fit-content; color: var(--warm-white); font-size: .92rem; overflow-wrap: anywhere; user-select: all; }
@@ -522,6 +531,10 @@ video.character-media { display: block; background: transparent; pointer-events:
   .section-pad { padding: 4.5rem 0; }
   .site-header { height: 68px; padding: 0 .75rem; }
   .brand-logo { width: 9rem; height: 46px; }
+  .header-actions { gap: .4rem; }
+  .header-kickstarter { min-height: 34px; padding: .45rem .65rem; font-size: 0; }
+  .header-kickstarter span { font-size: .85rem; }
+  .lang-switch button { padding: .4rem .52rem; }
   .hero-v15 { min-height: 860px; align-items: end; }
   .hero-main-image { object-position: 63% center; }
   .hero-shade { background: linear-gradient(180deg, rgba(33,23,36,.12) 18%, rgba(33,23,36,.82) 68%, rgba(33,23,36,.96)); }
